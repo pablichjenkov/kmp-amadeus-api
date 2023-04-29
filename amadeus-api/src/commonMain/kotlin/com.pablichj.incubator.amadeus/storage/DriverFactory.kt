@@ -4,10 +4,10 @@ import app.cash.sqldelight.db.SqlDriver
 import com.pablichj.incubator.amadeus.Database
 
 expect class DriverFactory {
-  fun createDriver(): SqlDriver
+  suspend fun createDriver(): SqlDriver
 }
 
-fun createDatabase(driverFactory: DriverFactory): Database {
+suspend fun createDatabase(driverFactory: DriverFactory): Database {
   val driver = driverFactory.createDriver()
   return Database(driver)
 }

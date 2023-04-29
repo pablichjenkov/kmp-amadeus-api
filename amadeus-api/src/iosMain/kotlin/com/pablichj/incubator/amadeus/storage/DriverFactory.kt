@@ -5,7 +5,7 @@ import app.cash.sqldelight.driver.native.NativeSqliteDriver
 import com.pablichj.incubator.amadeus.Database
 
 actual class DriverFactory {
-    actual fun createDriver(): SqlDriver {
+    actual suspend fun createDriver(): SqlDriver {
         return NativeSqliteDriver(Database.Schema, "amadeus_demo.db")
     }
 }

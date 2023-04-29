@@ -27,12 +27,14 @@ import com.pablichj.templato.component.platform.DefaultAppLifecycleDispatcher
 import com.pablichj.templato.component.platform.DesktopBridge
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.runBlocking
 import kotlin.system.exitProcess
 
 fun main() {
     val windowState = WindowState(size = DpSize(500.dp, 800.dp))
 
-    val database = createDatabase(DriverFactory())
+    val database = runBlocking { createDatabase(DriverFactory()) }
+
     val rootComponent = TreeBuilder.getRootComponent(database)
     val desktopBridge = DesktopBridge(
         appLifecycleDispatcher = DefaultAppLifecycleDispatcher(),
