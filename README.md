@@ -1,2 +1,2 @@
 ## Amadeus Client
-A kotlin multiplatform client to access the Amadeus Travel APIs.
+A kotlin multiplatform library to access Amadeus System APIs.
