@@ -1,7 +1,8 @@
 ## Amadeus Client
 A kotlin multiplatform library to access Amadeus System APIs.
 
-Want to try it? 
+<H3>Want to try it?</H3>
+
 ```
 // your-project-root-path/shared/build.gradle
 
