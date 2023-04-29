@@ -1,4 +1,4 @@
-## Amadeus Client
+## Amadeus Kotlin Multiplatform Client
 A kotlin multiplatform library to access Amadeus System APIs.
 
 <H3>Want to try it?</H3>
