@@ -28,10 +28,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         iosBridge.safeAreaInsets.end = right
         iosBridge.safeAreaInsets.bottom = bottom
         
-        let amadeusDemoComponent = BindingsKt.buildAmadeusDemoComponent()
+        let amadeusDemoRootComponent = BindingsKt.buildAmadeusDemoComponent()
         
         let mainViewController = BindingsKt.ComponentRenderer(
-            rootComponent: amadeusDemoComponent,
+            rootComponent: amadeusDemoRootComponent,
             iosBridge: iosBridge
         )
         

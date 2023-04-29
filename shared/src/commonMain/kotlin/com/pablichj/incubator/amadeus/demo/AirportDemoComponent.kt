@@ -9,6 +9,7 @@ import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -23,15 +24,13 @@ import com.pablichj.incubator.amadeus.endpoint.accesstoken.*
 import com.pablichj.incubator.amadeus.endpoint.airport.AirportAndCitySearchRequest
 import com.pablichj.incubator.amadeus.endpoint.airport.AirportAndCitySearchResponse
 import com.pablichj.incubator.amadeus.endpoint.airport.AirportAndCitySearchUseCase
-import com.pablichj.incubator.amadeus.endpoint.fligths.destination.GetFlightDestinationsRequest
-import com.pablichj.incubator.amadeus.endpoint.fligths.destination.GetFlightDestinationsResponse
-import com.pablichj.incubator.amadeus.endpoint.fligths.destination.GetFlightDestinationsUseCase
 import com.pablichj.incubator.amadeus.endpoint.offers.*
 import com.pablichj.incubator.amadeus.endpoint.offers.flight.*
 import com.pablichj.incubator.amadeus.endpoint.offers.flight.model.FlightOffer
 import com.pablichj.incubator.amadeus.endpoint.offers.flight.model.FlightOffersConfirmationRequestBody
 import com.pablichj.incubator.amadeus.endpoint.offers.flight.model.FlightOffersConfirmationRequestBodyBoxing
 import com.pablichj.templato.component.core.Component
+import com.pablichj.templato.component.platform.LocalSafeAreaInsets
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -287,44 +286,6 @@ class AirportDemoComponent(
         }
     }
 
-    private fun getFlightDestinations() {
-        coroutineScope.launch {
-            val accessToken = ResolveAccessTokenUseCaseSource(
-                Dispatchers, accessTokenDao
-            ).doWork()
-
-            if (accessToken == null) {
-                output("No saved token")
-                return@launch
-            } else {
-                output("Using saved token: ${accessToken.accessToken}")
-            }
-
-            val flightsDestinationsResult = GetFlightDestinationsUseCase(
-                Dispatchers
-            ).doWork(
-                // origin=PAR&maxPrice=200
-                GetFlightDestinationsRequest(
-                    accessToken,
-                    listOf(
-                        QueryParam.Origin("PAR"),
-                        QueryParam.MaxPrice("600")
-                    )
-                )
-            )
-
-            when (flightsDestinationsResult) {
-                is GetFlightDestinationsResponse.Error -> {
-                    output("Error fetching flights: ${flightsDestinationsResult.error}")
-                }
-                is GetFlightDestinationsResponse.Success -> {
-                    output("Success fetching flights: ${flightsDestinationsResult.flightDestinationsBody}")
-                }
-            }
-
-        }
-    }
-
     private fun output(text: String) {
         console.value += "\n$text"
     }
@@ -332,7 +293,9 @@ class AirportDemoComponent(
     @OptIn(ExperimentalLayoutApi::class)
     @Composable
     override fun Content(modifier: Modifier) {
-        Column(modifier.fillMaxSize()) {
+        val safeAreaInsets = LocalSafeAreaInsets.current
+        Column(modifier.fillMaxSize().padding(top = safeAreaInsets.top.dp)
+        ) {
             Spacer(Modifier.fillMaxWidth().height(24.dp))
             Text(
                 modifier = Modifier.fillMaxWidth(),
