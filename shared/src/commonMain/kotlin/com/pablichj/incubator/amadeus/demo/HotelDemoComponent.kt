@@ -31,6 +31,7 @@ import com.pablichj.incubator.amadeus.endpoint.hotels.HotelsByCityUseCase
 import com.pablichj.incubator.amadeus.endpoint.offers.*
 import com.pablichj.incubator.amadeus.endpoint.offers.hotel.*
 import com.pablichj.templato.component.core.Component
+import com.pablichj.templato.component.platform.LocalSafeAreaInsets
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -343,7 +344,9 @@ class HotelDemoComponent(
     @OptIn(ExperimentalLayoutApi::class)
     @Composable
     override fun Content(modifier: Modifier) {
-        Column(modifier.fillMaxSize()) {
+        val safeAreaInsets = LocalSafeAreaInsets.current
+        Column(modifier.fillMaxSize().padding(top = safeAreaInsets.top.dp)
+        ) {
             Spacer(Modifier.fillMaxWidth().height(24.dp))
             Text(
                 modifier = Modifier.fillMaxWidth(),

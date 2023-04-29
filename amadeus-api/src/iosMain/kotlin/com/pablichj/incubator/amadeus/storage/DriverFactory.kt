@@ -6,6 +6,6 @@ import com.pablichj.incubator.amadeus.Database
 
 actual class DriverFactory {
     actual fun createDriver(): SqlDriver {
-        return NativeSqliteDriver(Database.Schema, "test.db")
+        return NativeSqliteDriver(Database.Schema, "amadeus_demo.db")
     }
 }
