@@ -15,7 +15,7 @@ kotlin {
                 implementation(compose.foundation)
                 implementation(compose.ui)
                 implementation(compose.material)
-                implementation("androidx.activity:activity-compose:1.7.0")
+                implementation("androidx.activity:activity-compose:1.7.1")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
             }
