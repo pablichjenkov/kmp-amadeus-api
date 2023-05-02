@@ -22,7 +22,6 @@ class FlightOffersConfirmationUseCase(
                 val response = httpClient.post(flightOffersConfirmationUrl) {
                     contentType(ContentType.Application.Json)
                     header(HttpHeaders.Authorization, params.accessToken.authorization)
-                    header(HttpHeaders.XHttpMethodOverride, "GET")
                     setBody(params.body)
                 }
                 if (response.status.isSuccess()) {
