@@ -22,7 +22,6 @@ class FlightOffersUseCase(
                 val response = httpClient.post(flightOffersUrl) {
                     contentType(ContentType.Application.Json)
                     header(HttpHeaders.Authorization, params.accessToken.authorization)
-                    header(HttpHeaders.XHttpMethodOverride, "GET")
                     setBody(params.body)
                 }
                 if (response.status.isSuccess()) {

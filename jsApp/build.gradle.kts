@@ -5,7 +5,11 @@ plugins {
 
 kotlin {
     js(IR) {
-        browser()
+        browser {
+            commonWebpackConfig {
+                outputFileName = "amadeus-demo-app.js"
+            }
+        }
         binaries.executable()
     }
     sourceSets {
@@ -13,10 +17,9 @@ kotlin {
             dependencies {
                 implementation(project(":shared"))
                 implementation(project(":amadeus-api"))
-                implementation(compose.web.core)
+                implementation(compose.html.core)
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-js:1.6.4")
-                implementation ("org.jetbrains.kotlin:kotlin-stdlib-js")
                 implementation(npm("sql.js", "1.6.2"))
                 implementation(devNpm("copy-webpack-plugin", "9.1.0"))
             }
@@ -27,4 +30,3 @@ kotlin {
 compose.experimental {
     web.application {}
 }
-
