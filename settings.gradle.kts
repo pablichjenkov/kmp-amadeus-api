@@ -20,7 +20,7 @@ pluginManagement {
         id("com.android.application").version(agpVersion)
         id("com.android.library").version(agpVersion)
         id("org.jetbrains.compose").version(composeVersion)
-        id("com.codingfeline.buildkonfig").version("0.13.3")
+        id("com.github.gmazzo.buildconfig").version("4.0.4")
         id("org.jetbrains.dokka").version("1.8.10")
     }
 

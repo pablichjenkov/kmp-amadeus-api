@@ -1,10 +1,8 @@
-import com.codingfeline.buildkonfig.compiler.FieldSpec
-
 plugins {
     kotlin("multiplatform")
     id("org.jetbrains.compose")
     kotlin("native.cocoapods")
-    id("com.codingfeline.buildkonfig")
+    id("com.github.gmazzo.buildconfig")
 }
 
 version = "1.0-SNAPSHOT"
@@ -70,29 +68,28 @@ kotlin {
 
 }
 
-buildkonfig {
-    packageName = "com.pablichj.incubator.amadeus.demo"
+buildConfig {
+    useKotlinOutput { internalVisibility = true }
+    packageName("com.pablichj.incubator.amadeus.demo")
 
-    defaultConfigs {
-        val amadeusApiKey = extra["amadeus.apiKey"] as String
-        require(amadeusApiKey.isNotEmpty()) {
-            "Register your api key from amadeus and place it in local.properties as `amadeus.apiKey`"
-        }
-
-        val amadeusApiSecret = extra["amadeus.apiSecret"] as String
-        require(amadeusApiKey.isNotEmpty()) {
-            "Register your api secret from amadeus and place it in local.properties as `amadeus.apiSecret`"
-        }
-
-        buildConfigField(
-            FieldSpec.Type.STRING,
-            "AMADEUS_API_KEY", amadeusApiKey
-        )
-
-        buildConfigField(
-            FieldSpec.Type.STRING,
-            "AMADEUS_API_SECRET", amadeusApiSecret
-        )
-
+    val amadeusApiKey = extra["amadeus.apiKey"] as String
+    require(amadeusApiKey.isNotEmpty()) {
+        "Register your api key from amadeus and place it in local.properties as `amadeus.apiKey`"
     }
+
+    val amadeusApiSecret = extra["amadeus.apiSecret"] as String
+    require(amadeusApiKey.isNotEmpty()) {
+        "Register your api secret from amadeus and place it in local.properties as `amadeus.apiSecret`"
+    }
+
+    buildConfigField(
+        "String",
+        "AMADEUS_API_KEY", amadeusApiKey
+    )
+
+    buildConfigField(
+        "String",
+        "AMADEUS_API_SECRET", amadeusApiSecret
+    )
+
 }
