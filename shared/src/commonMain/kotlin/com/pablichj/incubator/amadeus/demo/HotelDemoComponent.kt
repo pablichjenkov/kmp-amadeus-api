@@ -16,16 +16,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pablichj.incubator.amadeus.Database
+import com.pablichj.incubator.amadeus.common.CallResult
 import com.pablichj.incubator.amadeus.common.DefaultTimeProvider
 import com.pablichj.incubator.amadeus.common.ITimeProvider
 import com.pablichj.incubator.amadeus.endpoint.accesstoken.*
 import com.pablichj.incubator.amadeus.endpoint.booking.hotel.HotelBookingRequest
-import com.pablichj.incubator.amadeus.endpoint.booking.hotel.HotelBookingResponse
 import com.pablichj.incubator.amadeus.endpoint.booking.hotel.HotelBookingUseCase
 import com.pablichj.incubator.amadeus.endpoint.city.CitySearchRequest
-import com.pablichj.incubator.amadeus.endpoint.city.CitySearchResponse
 import com.pablichj.incubator.amadeus.endpoint.city.CitySearchUseCase
-import com.pablichj.incubator.amadeus.endpoint.hotels.HotelByCityResponse
 import com.pablichj.incubator.amadeus.endpoint.hotels.HotelsByCityRequest
 import com.pablichj.incubator.amadeus.endpoint.hotels.HotelsByCityUseCase
 import com.pablichj.incubator.amadeus.endpoint.offers.*
@@ -62,20 +60,21 @@ class HotelDemoComponent(
 
     private fun getAccessToken() {
         coroutineScope.launch {
-            val tokenResponse = GetAccessTokenUseCase(Dispatchers).doWork(
+            val callResult = GetAccessTokenUseCase(Dispatchers).doWork(
                 GetAccessTokenRequest(
                     ApiCredentials.apiKey,
                     ApiCredentials.apiSecret,
                     GetAccessTokenUseCase.AccessTokenGrantType
                 )
             )
-            when (tokenResponse) {
-                is GetAccessTokenResponse.Error -> {
-                    output("Error fetching access token: ${tokenResponse.error}")
+            when (callResult) {
+                is CallResult.Error -> {
+                    output("Error fetching access token: ${callResult.error}")
                 }
-                is GetAccessTokenResponse.Success -> {
-                    accessTokenDao.insert(tokenResponse.accessToken)
-                    output("SQDelight Insert Token Success: ${tokenResponse.accessToken.accessToken}")
+                is CallResult.Success -> {
+                    val accessToken = callResult.responseBody
+                    accessTokenDao.insert(accessToken)
+                    output("SQDelight Insert Token Success: $accessToken")
                 }
             }
         }
@@ -95,7 +94,7 @@ class HotelDemoComponent(
                 output("Using saved token: ${accessToken.accessToken}")
             }
 
-            val citySearchResult = CitySearchUseCase(
+            val callResult = CitySearchUseCase(
                 Dispatchers
             ).doWork(
                 //?countryCode=FR&keyword=PARIS&max=10
@@ -109,12 +108,12 @@ class HotelDemoComponent(
                 )
             )
 
-            when (citySearchResult) {
-                is CitySearchResponse.Error -> {
-                    output("Error in city search: ${citySearchResult.error}")
+            when (callResult) {
+                is CallResult.Error -> {
+                    output("Error in city search: ${callResult.error}")
                 }
-                is CitySearchResponse.Success -> {
-                    citySearchResult.responseBody.data.forEach {
+                is CallResult.Success -> {
+                    callResult.responseBody.data.forEach {
                         output(
                             """
                             City Name = ${it.name}
@@ -144,7 +143,7 @@ class HotelDemoComponent(
                 output("Using saved token: ${accessToken.accessToken}")
             }
 
-            val hotelListResult = HotelsByCityUseCase(
+            val callResult = HotelsByCityUseCase(
                 Dispatchers
             ).doWork(
                 //?cityCode=PAR&radius=1&radiusUnit=KM&hotelSource=ALL
@@ -159,12 +158,12 @@ class HotelDemoComponent(
                 )
             )
 
-            when (hotelListResult) {
-                is HotelByCityResponse.Error -> {
-                    output("Error in hotels by city: ${hotelListResult.error}")
+            when (callResult) {
+                is CallResult.Error -> {
+                    output("Error in hotels by city: ${callResult.error}")
                 }
-                is HotelByCityResponse.Success -> {
-                    hotelListResult.responseBody.data.forEach {
+                is CallResult.Success -> {
+                    callResult.responseBody.data.forEach {
                         output(
                             """
                                 Hotel ID: ${it.hotelId}
@@ -194,7 +193,7 @@ class HotelDemoComponent(
                 output("Using saved token: ${accessToken.accessToken}")
             }
 
-            val multiHotelOffersResult = MultiHotelOffersUseCase(
+            val callResult = MultiHotelOffersUseCase(
                 Dispatchers
             ).doWork(
                 //?hotelIds=MCLONGHM&adults=1&checkInDate=2023-11-22&roomQuantity=1&paymentPolicy=NONE&bestRateOnly=true
@@ -211,12 +210,12 @@ class HotelDemoComponent(
                 )
             )
 
-            when (multiHotelOffersResult) {
-                is MultiHotelOffersResponse.Error -> {
-                    output("Error in multi hotel offers: ${multiHotelOffersResult.error}")
+            when (callResult) {
+                is CallResult.Error -> {
+                    output("Error in multi hotel offers: ${callResult.error}")
                 }
-                is MultiHotelOffersResponse.Success -> {
-                    multiHotelOffersResult.responseBody.data.forEach {
+                is CallResult.Success -> {
+                    callResult.responseBody.data.forEach {
                         output(
                             """
                                 Hotel ID: ${it.hotel.hotelId}
@@ -236,7 +235,6 @@ class HotelDemoComponent(
                     }
                 }
             }
-
         }
     }
 
@@ -254,7 +252,7 @@ class HotelDemoComponent(
                 output("Using saved token: ${accessToken.accessToken}")
             }
 
-            val getOfferResult = GetOfferUseCase(
+            val callResult = GetOfferUseCase(
                 Dispatchers
             ).doWork(
                 GetOfferRequest(
@@ -263,13 +261,13 @@ class HotelDemoComponent(
                 )
             )
 
-            when (getOfferResult) {
-                is GetOfferResponse.Error -> {
-                    output("Error in get offer by id: ${getOfferResult.error}")
+            when (callResult) {
+                is CallResult.Error -> {
+                    output("Error in get offer by id: ${callResult.error}")
                 }
-                is GetOfferResponse.Success -> {
-                    output("Offer in Hotel: ${getOfferResult.responseBody.data.hotel.name}")
-                    getOfferResult.responseBody.data.offers.forEach {
+                is CallResult.Success -> {
+                    output("Offer in Hotel: ${callResult.responseBody.data.hotel.name}")
+                    callResult.responseBody.data.offers.forEach {
                         output(
                             """
                             Offer Id: ${it.id}
@@ -282,7 +280,6 @@ class HotelDemoComponent(
                     }
                 }
             }
-
         }
     }
 
@@ -300,7 +297,7 @@ class HotelDemoComponent(
                 output("Using saved token: ${accessToken.accessToken}")
             }
 
-            val hotelBookingResult = HotelBookingUseCase(
+            val callResult = HotelBookingUseCase(
                 Dispatchers
             ).doWork(
                 HotelBookingRequest(
@@ -309,12 +306,12 @@ class HotelDemoComponent(
                 )
             )
 
-            when (hotelBookingResult) {
-                is HotelBookingResponse.Error -> {
-                    output("Error in hotel booking: ${hotelBookingResult.error}")
+            when (callResult) {
+                is CallResult.Error -> {
+                    output("Error in hotel booking: ${callResult.error}")
                 }
-                is HotelBookingResponse.Success -> {
-                    hotelBookingResult.responseBody.data.forEach {
+                is CallResult.Success -> {
+                    callResult.responseBody.data.forEach {
                         output(
                             """
                             Booking Confirmation Id: ${it.id}
@@ -345,7 +342,8 @@ class HotelDemoComponent(
     @Composable
     override fun Content(modifier: Modifier) {
         val safeAreaInsets = LocalSafeAreaInsets.current
-        Column(modifier.fillMaxSize().padding(top = safeAreaInsets.top.dp)
+        Column(
+            modifier.fillMaxSize().padding(top = safeAreaInsets.top.dp)
         ) {
             Spacer(Modifier.fillMaxWidth().height(24.dp))
             Text(

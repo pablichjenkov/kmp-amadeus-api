@@ -1,8 +1,10 @@
 package com.pablichj.incubator.amadeus.endpoint.booking.hotel
 
 import AmadeusError
+import com.pablichj.incubator.amadeus.common.CallResult
 import com.pablichj.incubator.amadeus.common.Envs
 import com.pablichj.incubator.amadeus.common.SingleUseCase
+import com.pablichj.incubator.amadeus.endpoint.booking.hotel.model.HotelBookingResponseBody
 import com.pablichj.incubator.amadeus.httpClient
 import io.ktor.client.call.*
 import io.ktor.client.request.*
@@ -13,9 +15,9 @@ import kotlinx.coroutines.withContext
 
 class HotelBookingUseCase(
     private val dispatcher: Dispatchers
-) : SingleUseCase<HotelBookingRequest, HotelBookingResponse> {
+) : SingleUseCase<HotelBookingRequest, CallResult<HotelBookingResponseBody>> {
 
-    override suspend fun doWork(params: HotelBookingRequest): HotelBookingResponse {
+    override suspend fun doWork(params: HotelBookingRequest): CallResult<HotelBookingResponseBody> {
         val result = withContext(dispatcher.Unconfined) {
             runCatching {
                 val response = httpClient.post(hotelBookingUrl) {
@@ -24,14 +26,14 @@ class HotelBookingUseCase(
                     setBody(params.body)
                 }
                 if (response.status.isSuccess()) {
-                    HotelBookingResponse.Success(response.body())
+                    CallResult.Success<HotelBookingResponseBody>(response.body())
                 } else {
-                    HotelBookingResponse.Error(AmadeusError.fromErrorJsonString(response.bodyAsText()))
+                    CallResult.Error(AmadeusError.fromErrorJsonString(response.bodyAsText()))
                 }
             }
         }
         return result.getOrElse {
-            return HotelBookingResponse.Error(AmadeusError.fromException(it))
+            return CallResult.Error(AmadeusError.fromException(it))
         }
     }
 

@@ -1,8 +1,10 @@
 package com.pablichj.incubator.amadeus.endpoint.accesstoken
 
 import AmadeusError
+import com.pablichj.incubator.amadeus.common.CallResult
 import com.pablichj.incubator.amadeus.common.Envs
 import com.pablichj.incubator.amadeus.common.SingleUseCase
+import com.pablichj.incubator.amadeus.endpoint.accesstoken.model.AccessToken
 import com.pablichj.incubator.amadeus.httpClient
 import io.ktor.client.call.*
 import io.ktor.client.request.forms.*
@@ -13,9 +15,9 @@ import kotlinx.coroutines.withContext
 
 class GetAccessTokenUseCase(
     private val dispatcher: Dispatchers
-) : SingleUseCase<GetAccessTokenRequest, GetAccessTokenResponse> {
+) : SingleUseCase<GetAccessTokenRequest, CallResult<AccessToken>> {
 
-    override suspend fun doWork(params: GetAccessTokenRequest): GetAccessTokenResponse {
+    override suspend fun doWork(params: GetAccessTokenRequest): CallResult<AccessToken> {
         val result = withContext(dispatcher.Unconfined) {
             runCatching {
                 val response = httpClient.submitForm(
@@ -30,14 +32,14 @@ class GetAccessTokenUseCase(
                     }
                 )
                 if (response.status.isSuccess()) {
-                    GetAccessTokenResponse.Success(response.body())
+                    CallResult.Success<AccessToken>(response.body())
                 } else {
-                    GetAccessTokenResponse.Error(AmadeusError.fromErrorJsonString(response.bodyAsText()))
+                    CallResult.Error(AmadeusError.fromErrorJsonString(response.bodyAsText()))
                 }
             }
         }
         return result.getOrElse {
-            return GetAccessTokenResponse.Error(AmadeusError.fromException(it))
+            return CallResult.Error(AmadeusError.fromException(it))
         }
     }
 
