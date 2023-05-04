@@ -1,8 +1,10 @@
 package com.pablichj.incubator.amadeus.endpoint.city
 
 import AmadeusError
+import com.pablichj.incubator.amadeus.common.CallResult
 import com.pablichj.incubator.amadeus.common.Envs
 import com.pablichj.incubator.amadeus.common.SingleUseCase
+import com.pablichj.incubator.amadeus.endpoint.city.model.CitySearchResponseBody
 import com.pablichj.incubator.amadeus.httpClient
 import io.ktor.client.call.*
 import io.ktor.client.request.*
@@ -13,9 +15,9 @@ import kotlinx.coroutines.withContext
 
 class CitySearchUseCase(
     private val dispatcher: Dispatchers
-) : SingleUseCase<CitySearchRequest, CitySearchResponse> {
+) : SingleUseCase<CitySearchRequest, CallResult<CitySearchResponseBody>> {
 
-    override suspend fun doWork(params: CitySearchRequest): CitySearchResponse {
+    override suspend fun doWork(params: CitySearchRequest): CallResult<CitySearchResponseBody> {
         val result = withContext(dispatcher.Unconfined) {
             runCatching {
                 val response = httpClient.get(hotelsByCityUrl) {
@@ -27,14 +29,14 @@ class CitySearchUseCase(
                     header(HttpHeaders.Authorization, params.accessToken.authorization)
                 }
                 if (response.status.isSuccess()) {
-                    CitySearchResponse.Success(response.body())
+                    CallResult.Success<CitySearchResponseBody>(response.body())
                 } else {
-                    CitySearchResponse.Error(AmadeusError.fromErrorJsonString(response.bodyAsText()))
+                    CallResult.Error(AmadeusError.fromErrorJsonString(response.bodyAsText()))
                 }
             }
         }
         return result.getOrElse {
-            return CitySearchResponse.Error(AmadeusError.fromException(it))
+            return CallResult.Error(AmadeusError.fromException(it))
         }
     }
 

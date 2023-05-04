@@ -9,7 +9,6 @@ import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -22,7 +21,6 @@ import com.pablichj.incubator.amadeus.common.DefaultTimeProvider
 import com.pablichj.incubator.amadeus.common.ITimeProvider
 import com.pablichj.incubator.amadeus.endpoint.accesstoken.*
 import com.pablichj.incubator.amadeus.endpoint.airport.AirportAndCitySearchRequest
-import com.pablichj.incubator.amadeus.endpoint.airport.AirportAndCitySearchResponse
 import com.pablichj.incubator.amadeus.endpoint.airport.AirportAndCitySearchUseCase
 import com.pablichj.incubator.amadeus.endpoint.offers.*
 import com.pablichj.incubator.amadeus.endpoint.offers.flight.*
@@ -62,20 +60,21 @@ class AirportDemoComponent(
 
     private fun getAccessToken() {
         coroutineScope.launch {
-            val tokenResponse = GetAccessTokenUseCase(Dispatchers).doWork(
+            val callResult = GetAccessTokenUseCase(Dispatchers).doWork(
                 GetAccessTokenRequest(
                     ApiCredentials.apiKey,
                     ApiCredentials.apiSecret,
                     GetAccessTokenUseCase.AccessTokenGrantType
                 )
             )
-            when (tokenResponse) {
-                is GetAccessTokenResponse.Error -> {
-                    output("Error fetching access token: ${tokenResponse.error}")
+            when (callResult) {
+                is CallResult.Error -> {
+                    output("Error fetching access token: ${callResult.error}")
                 }
-                is GetAccessTokenResponse.Success -> {
-                    accessTokenDao.insert(tokenResponse.accessToken)
-                    output("SQDelight Insert Token Success: ${tokenResponse.accessToken.accessToken}")
+                is CallResult.Success -> {
+                    val accessToken = callResult.responseBody
+                    accessTokenDao.insert(accessToken)
+                    output("SQDelight Insert Token Success: $accessToken")
                 }
             }
         }
@@ -94,7 +93,7 @@ class AirportDemoComponent(
                 output("Using saved token: ${accessToken.accessToken}")
             }
 
-            val airportByKeywordResult = AirportAndCitySearchUseCase(
+            val callResult = AirportAndCitySearchUseCase(
                 Dispatchers
             ).doWork(
                 // ?subType=CITY&keyword=MUC&page%5Blimit%5D=10&page%5Boffset%5D=0&sort=analytics.travelers.score&view=FULL
@@ -106,12 +105,12 @@ class AirportDemoComponent(
                 )
             )
 
-            when (airportByKeywordResult) {
-                is AirportAndCitySearchResponse.Error -> {
-                    output("Error fetching Airports: ${airportByKeywordResult.error}")
+            when (callResult) {
+                is CallResult.Error -> {
+                    output("Error fetching Airports: ${callResult.error}")
                 }
-                is AirportAndCitySearchResponse.Success -> {
-                    airportByKeywordResult.responseBody.data.forEach {
+                is CallResult.Success -> {
+                    callResult.responseBody.data.forEach {
                         output(
                             """
                             Airport Name: ${it.name}
@@ -143,7 +142,7 @@ class AirportDemoComponent(
                 output("Using saved token: ${accessToken.accessToken}")
             }
 
-            val flightOffersResult = FlightOffersUseCase(
+            val callResult = FlightOffersUseCase(
                 Dispatchers
             ).doWork(
                 FlightOffersRequest(
@@ -152,13 +151,13 @@ class AirportDemoComponent(
                 )
             )
 
-            when (flightOffersResult) {
+            when (callResult) {
                 is CallResult.Error -> {
-                    output("Error fetching flight offers: ${flightOffersResult.error}")
+                    output("Error fetching flight offers: ${callResult.error}")
                 }
                 is CallResult.Success<FlightOffersResponse> -> {
-                    flightOffers = flightOffersResult.responseBody.data
-                    flightOffersResult.responseBody.data.forEach {
+                    flightOffers = callResult.responseBody.data
+                    callResult.responseBody.data.forEach {
                         output(
                             """
                             Offer Id: ${it.id}
@@ -196,7 +195,6 @@ class AirportDemoComponent(
                             )
                         }
                     }
-                    output(flightOffersResult.responseBody.toJson())
                 }
             }
 
@@ -222,7 +220,7 @@ class AirportDemoComponent(
                 output("Using saved token: ${accessToken.accessToken}")
             }
 
-            val flightOffersConfirmationResult = FlightOffersConfirmationUseCase(
+            val callResult = FlightOffersConfirmationUseCase(
                 Dispatchers
             ).doWork(
                 FlightOffersConfirmationRequest(
@@ -236,12 +234,12 @@ class AirportDemoComponent(
                 )
             )
 
-            when (flightOffersConfirmationResult) {
+            when (callResult) {
                 is CallResult.Error -> {
-                    output("Error fetching flight offers: ${flightOffersConfirmationResult.error}")
+                    output("Error fetching flight offers: ${callResult.error}")
                 }
                 is CallResult.Success<FlightOffersConfirmationResponse> -> {
-                    flightOffersConfirmationResult.responseBody.data.forEach {
+                    callResult.responseBody.data.forEach {
                         output(
                             """
                             Offer Id: ${it.id}
@@ -279,7 +277,6 @@ class AirportDemoComponent(
                             )
                         }
                     }
-                    output(flightOffersConfirmationResult.responseBody.toJson())
                 }
             }
 
@@ -294,7 +291,8 @@ class AirportDemoComponent(
     @Composable
     override fun Content(modifier: Modifier) {
         val safeAreaInsets = LocalSafeAreaInsets.current
-        Column(modifier.fillMaxSize().padding(top = safeAreaInsets.top.dp)
+        Column(
+            modifier.fillMaxSize().padding(top = safeAreaInsets.top.dp)
         ) {
             Spacer(Modifier.fillMaxWidth().height(24.dp))
             Text(

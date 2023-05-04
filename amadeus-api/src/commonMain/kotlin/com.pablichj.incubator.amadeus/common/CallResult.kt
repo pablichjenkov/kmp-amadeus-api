@@ -2,7 +2,7 @@ package com.pablichj.incubator.amadeus.common
 
 import AmadeusError
 
-sealed class CallResult<T> {
-    class Error<T>(val error: AmadeusError) : CallResult<T>()
+sealed class CallResult<out T> {
+    class Error(val error: AmadeusError) : CallResult<Nothing>()
     class Success<T>(val responseBody: T) : CallResult<T>()
 }

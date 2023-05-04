@@ -1,8 +1,10 @@
 package com.pablichj.incubator.amadeus.endpoint.offers.hotel
 
 import AmadeusError
+import com.pablichj.incubator.amadeus.common.CallResult
 import com.pablichj.incubator.amadeus.common.Envs
 import com.pablichj.incubator.amadeus.common.SingleUseCase
+import com.pablichj.incubator.amadeus.endpoint.offers.hotel.model.GetOfferResponseBody
 import com.pablichj.incubator.amadeus.httpClient
 import io.ktor.client.call.*
 import io.ktor.client.request.*
@@ -13,9 +15,9 @@ import kotlinx.coroutines.withContext
 
 class GetOfferUseCase(
     private val dispatcher: Dispatchers
-) : SingleUseCase<GetOfferRequest, GetOfferResponse> {
+) : SingleUseCase<GetOfferRequest, CallResult<GetOfferResponseBody>> {
 
-    override suspend fun doWork(params: GetOfferRequest): GetOfferResponse {
+    override suspend fun doWork(params: GetOfferRequest): CallResult<GetOfferResponseBody> {
         val result = withContext(dispatcher.Unconfined) {
             runCatching {
                 val response = httpClient.get(getOfferUrl) {
@@ -25,15 +27,15 @@ class GetOfferUseCase(
                     header(HttpHeaders.Authorization, params.accessToken.authorization)
                 }
                 if (response.status.isSuccess()) {
-                    GetOfferResponse.Success(response.body())
+                    CallResult.Success<GetOfferResponseBody>(response.body())
                 } else {
-                    GetOfferResponse.Error(AmadeusError.fromErrorJsonString(response.bodyAsText()))
+                    CallResult.Error(AmadeusError.fromErrorJsonString(response.bodyAsText()))
                 }
             }
         }
         return result.getOrElse {
             it.printStackTrace()
-            return GetOfferResponse.Error(AmadeusError.fromException(it))
+            return CallResult.Error(AmadeusError.fromException(it))
         }
     }
 
