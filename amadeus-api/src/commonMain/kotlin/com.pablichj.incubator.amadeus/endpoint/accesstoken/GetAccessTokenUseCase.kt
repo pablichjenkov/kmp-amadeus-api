@@ -16,30 +16,26 @@ import kotlinx.coroutines.withContext
 class GetAccessTokenUseCase(
     private val dispatcher: Dispatchers
 ) : SingleUseCase<GetAccessTokenRequest, CallResult<AccessToken>> {
-
     override suspend fun doWork(params: GetAccessTokenRequest): CallResult<AccessToken> {
-        val result = withContext(dispatcher.Unconfined) {
-            runCatching {
+        return withContext(dispatcher.Unconfined) {
+            try {
                 val response = httpClient.submitForm(
                     url = tokenUrl,
                     formParameters = Parameters.build {
-                        append(
-                            "grant_type",
-                            params.accessTokenGrantType
-                        ) // TODO: Create a separate Param(key,value) and do a for each
-                        append("client_id", params.clientId)
-                        append("client_secret", params.clientSecret)
+                        params.formParams.forEach {
+                            append(it.key, it.value)
+                        }
                     }
                 )
                 if (response.status.isSuccess()) {
-                    CallResult.Success<AccessToken>(response.body())
+                    CallResult.Success(response.body())
                 } else {
                     CallResult.Error(AmadeusError.fromErrorJsonString(response.bodyAsText()))
                 }
+            } catch (th: Throwable) {
+                th.printStackTrace()
+                CallResult.Error(AmadeusError.fromException(th))
             }
-        }
-        return result.getOrElse {
-            return CallResult.Error(AmadeusError.fromException(it))
         }
     }
 
@@ -47,5 +43,4 @@ class GetAccessTokenUseCase(
         private val tokenUrl = "${Envs.TEST.hostUrl}/v1/security/oauth2/token"
         const val AccessTokenGrantType = "client_credentials"
     }
-
 }

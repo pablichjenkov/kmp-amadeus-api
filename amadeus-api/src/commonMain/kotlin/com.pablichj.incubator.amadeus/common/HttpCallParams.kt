@@ -21,5 +21,12 @@ sealed class QueryParam(
     class SubType(val subType: String) : QueryParam("subType", subType)
 }
 
-
+sealed class FormParam(
+    val key: String,
+    val value: String
+) {
+    class GrantType(grantType: String) : FormParam("grant_type", grantType)
+    class ClientId(clientId: String) : FormParam("client_id", clientId)
+    class ClientSecret(clientSecret: String) : FormParam("client_secret", clientSecret)
+}
 

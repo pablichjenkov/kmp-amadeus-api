@@ -16,10 +16,9 @@ import kotlinx.coroutines.withContext
 class CitySearchUseCase(
     private val dispatcher: Dispatchers
 ) : SingleUseCase<CitySearchRequest, CallResult<CitySearchResponseBody>> {
-
     override suspend fun doWork(params: CitySearchRequest): CallResult<CitySearchResponseBody> {
-        val result = withContext(dispatcher.Unconfined) {
-            runCatching {
+        return withContext(dispatcher.Unconfined) {
+            try {
                 val response = httpClient.get(hotelsByCityUrl) {
                     url {
                         params.queryParams.forEach {
@@ -29,14 +28,14 @@ class CitySearchUseCase(
                     header(HttpHeaders.Authorization, params.accessToken.authorization)
                 }
                 if (response.status.isSuccess()) {
-                    CallResult.Success<CitySearchResponseBody>(response.body())
+                    CallResult.Success(response.body())
                 } else {
                     CallResult.Error(AmadeusError.fromErrorJsonString(response.bodyAsText()))
                 }
+            } catch (th: Throwable) {
+                th.printStackTrace()
+                CallResult.Error(AmadeusError.fromException(th))
             }
-        }
-        return result.getOrElse {
-            return CallResult.Error(AmadeusError.fromException(it))
         }
     }
 

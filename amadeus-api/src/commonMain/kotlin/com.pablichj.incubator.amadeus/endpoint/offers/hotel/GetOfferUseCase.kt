@@ -16,10 +16,9 @@ import kotlinx.coroutines.withContext
 class GetOfferUseCase(
     private val dispatcher: Dispatchers
 ) : SingleUseCase<GetOfferRequest, CallResult<GetOfferResponseBody>> {
-
     override suspend fun doWork(params: GetOfferRequest): CallResult<GetOfferResponseBody> {
-        val result = withContext(dispatcher.Unconfined) {
-            runCatching {
+        return withContext(dispatcher.Unconfined) {
+            try {
                 val response = httpClient.get(getOfferUrl) {
                     url {
                         appendEncodedPathSegments("/hotel-offers/${params.offerId}")
@@ -31,16 +30,14 @@ class GetOfferUseCase(
                 } else {
                     CallResult.Error(AmadeusError.fromErrorJsonString(response.bodyAsText()))
                 }
+            } catch (th: Throwable) {
+                th.printStackTrace()
+                CallResult.Error(AmadeusError.fromException(th))
             }
-        }
-        return result.getOrElse {
-            it.printStackTrace()
-            return CallResult.Error(AmadeusError.fromException(it))
         }
     }
 
     companion object {
         private val getOfferUrl = "${Envs.TEST.hostUrl}/v3/shopping"
     }
-
 }
