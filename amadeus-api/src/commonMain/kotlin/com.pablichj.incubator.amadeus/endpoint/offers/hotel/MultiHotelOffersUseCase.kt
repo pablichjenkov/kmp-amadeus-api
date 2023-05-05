@@ -16,10 +16,9 @@ import kotlinx.coroutines.withContext
 class MultiHotelOffersUseCase(
     private val dispatcher: Dispatchers
 ) : SingleUseCase<MultiHotelOffersRequest, CallResult<MultiHotelOffersResponseBody>> {
-
     override suspend fun doWork(params: MultiHotelOffersRequest): CallResult<MultiHotelOffersResponseBody> {
-        val result = withContext(dispatcher.Unconfined) {
-            runCatching {
+        return withContext(dispatcher.Unconfined) {
+            try {
                 val response = httpClient.get(hotelsByCityUrl) {
                     url {
                         params.queryParams.forEach {
@@ -33,16 +32,14 @@ class MultiHotelOffersUseCase(
                 } else {
                     CallResult.Error(AmadeusError.fromErrorJsonString(response.bodyAsText()))
                 }
+            } catch (th: Throwable) {
+                th.printStackTrace()
+                CallResult.Error(AmadeusError.fromException(th))
             }
-        }
-        return result.getOrElse {
-            it.printStackTrace()
-            return CallResult.Error(AmadeusError.fromException(it))
         }
     }
 
     companion object {
         private val hotelsByCityUrl = "${Envs.TEST.hostUrl}/v3/shopping/hotel-offers"
     }
-
 }

@@ -1,5 +1,6 @@
 package com.pablichj.incubator.amadeus.demo
 
+import FormParam
 import QueryParam
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -62,9 +63,11 @@ class AirportDemoComponent(
         coroutineScope.launch {
             val callResult = GetAccessTokenUseCase(Dispatchers).doWork(
                 GetAccessTokenRequest(
-                    ApiCredentials.apiKey,
-                    ApiCredentials.apiSecret,
-                    GetAccessTokenUseCase.AccessTokenGrantType
+                    listOf(
+                        FormParam.ClientId(ApiCredentials.apiKey),
+                        FormParam.ClientSecret(ApiCredentials.apiSecret),
+                        FormParam.GrantType(GetAccessTokenUseCase.AccessTokenGrantType),
+                    )
                 )
             )
             when (callResult) {

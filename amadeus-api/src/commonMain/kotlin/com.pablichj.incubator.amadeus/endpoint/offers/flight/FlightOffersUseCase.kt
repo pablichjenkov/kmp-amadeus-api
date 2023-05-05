@@ -15,10 +15,9 @@ import kotlinx.coroutines.withContext
 class FlightOffersUseCase(
     private val dispatcher: Dispatchers
 ) : SingleUseCase<FlightOffersRequest, CallResult<FlightOffersResponse>> {
-
     override suspend fun doWork(params: FlightOffersRequest): CallResult<FlightOffersResponse> {
-        val result = withContext(dispatcher.Unconfined) {
-            runCatching {
+        return withContext(dispatcher.Unconfined) {
+            try {
                 val response = httpClient.post(flightOffersUrl) {
                     contentType(ContentType.Application.Json)
                     header(HttpHeaders.Authorization, params.accessToken.authorization)
@@ -29,16 +28,14 @@ class FlightOffersUseCase(
                 } else {
                     CallResult.Error(AmadeusError.fromErrorJsonString(response.bodyAsText()))
                 }
+            } catch (th: Throwable) {
+                th.printStackTrace()
+                CallResult.Error(AmadeusError.fromException(th))
             }
-        }
-        return result.getOrElse {
-            it.printStackTrace()
-            return CallResult.Error(AmadeusError.fromException(it))
         }
     }
 
     companion object {
         private val flightOffersUrl = "${Envs.TEST.hostUrl}/v2/shopping/flight-offers"
     }
-
 }

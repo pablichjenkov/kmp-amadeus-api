@@ -1,10 +1,9 @@
-package com.pablichj.incubator.amadeus.endpoint.booking.hotel
+package com.pablichj.incubator.amadeus.endpoint.booking.flight
 
 import AmadeusError
 import com.pablichj.incubator.amadeus.common.CallResult
 import com.pablichj.incubator.amadeus.common.Envs
 import com.pablichj.incubator.amadeus.common.SingleUseCase
-import com.pablichj.incubator.amadeus.endpoint.booking.hotel.model.HotelBookingResponseBody
 import com.pablichj.incubator.amadeus.httpClient
 import io.ktor.client.call.*
 import io.ktor.client.request.*
@@ -13,10 +12,10 @@ import io.ktor.http.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class HotelBookingUseCase(
+class FlightBookingUseCase(
     private val dispatcher: Dispatchers
-) : SingleUseCase<HotelBookingRequest, CallResult<HotelBookingResponseBody>> {
-    override suspend fun doWork(params: HotelBookingRequest): CallResult<HotelBookingResponseBody> {
+) : SingleUseCase<FlightBookingRequest, CallResult<FlightBookingResponseBody>> {
+    override suspend fun doWork(params: FlightBookingRequest): CallResult<FlightBookingResponseBody> {
         return withContext(dispatcher.Unconfined) {
             try {
                 val response = httpClient.post(hotelBookingUrl) {
@@ -37,6 +36,6 @@ class HotelBookingUseCase(
     }
 
     companion object {
-        private val hotelBookingUrl = "${Envs.TEST.hostUrl}/booking/hotel-bookings"
+        private val hotelBookingUrl = "${Envs.TEST.hostUrl}/flights/bookings"
     }
 }
