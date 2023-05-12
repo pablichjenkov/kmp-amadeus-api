@@ -1,5 +1,6 @@
 package com.pablichj.incubator.amadeus.endpoint.airport.model
 
+import com.pablichj.incubator.amadeus.common.model.Address
 import com.pablichj.incubator.amadeus.common.model.GeoCode
 
 @kotlinx.serialization.Serializable
@@ -13,6 +14,6 @@ data class AirportInfo (
     val timeZoneOffset: String,
     val iataCode: String,
     val geoCode: GeoCode,
-    val address: AddressForAirport,
+    val address: Address,
     val analytics: Analytics? = null
 )

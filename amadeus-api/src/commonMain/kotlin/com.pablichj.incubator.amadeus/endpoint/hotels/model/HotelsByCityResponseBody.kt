@@ -1,6 +1,7 @@
 package com.pablichj.incubator.amadeus.endpoint.hotels.model
 
 import com.pablichj.incubator.amadeus.common.model.MetaWithCount
+import com.pablichj.incubator.amadeus.endpoint.offers.hotel.model.HotelOfferSearch
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString

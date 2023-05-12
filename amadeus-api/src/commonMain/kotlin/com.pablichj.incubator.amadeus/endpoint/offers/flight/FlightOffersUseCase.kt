@@ -24,7 +24,7 @@ class FlightOffersUseCase(
                     setBody(params.body)
                 }
                 if (response.status.isSuccess()) {
-                    CallResult.Success<FlightOffersResponse>(response.body())
+                    CallResult.Success(response.body())
                 } else {
                     CallResult.Error(AmadeusError.fromErrorJsonString(response.bodyAsText()))
                 }

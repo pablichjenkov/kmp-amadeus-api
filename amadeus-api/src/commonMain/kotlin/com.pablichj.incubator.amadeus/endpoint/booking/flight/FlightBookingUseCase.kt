@@ -4,6 +4,7 @@ import AmadeusError
 import com.pablichj.incubator.amadeus.common.CallResult
 import com.pablichj.incubator.amadeus.common.Envs
 import com.pablichj.incubator.amadeus.common.SingleUseCase
+import com.pablichj.incubator.amadeus.endpoint.booking.flight.model.FlightOrder
 import com.pablichj.incubator.amadeus.httpClient
 import io.ktor.client.call.*
 import io.ktor.client.request.*
@@ -14,11 +15,11 @@ import kotlinx.coroutines.withContext
 
 class FlightBookingUseCase(
     private val dispatcher: Dispatchers
-) : SingleUseCase<FlightBookingRequest, CallResult<FlightBookingResponseBody>> {
-    override suspend fun doWork(params: FlightBookingRequest): CallResult<FlightBookingResponseBody> {
+) : SingleUseCase<FlightBookingRequest, CallResult<FlightOrder>> {
+    override suspend fun doWork(params: FlightBookingRequest): CallResult<FlightOrder> {
         return withContext(dispatcher.Unconfined) {
             try {
-                val response = httpClient.post(hotelBookingUrl) {
+                val response = httpClient.post(flightBookingUrl) {
                     contentType(ContentType.Application.Json)
                     header(HttpHeaders.Authorization, params.accessToken.authorization)
                     setBody(params.body)
@@ -36,6 +37,7 @@ class FlightBookingUseCase(
     }
 
     companion object {
-        private val hotelBookingUrl = "${Envs.TEST.hostUrl}/flights/bookings"
+        private val flightBookingUrl = "${Envs.TEST.hostUrl}/v1/booking/flight-orders"
+
     }
 }

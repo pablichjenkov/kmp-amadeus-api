@@ -26,7 +26,7 @@ class GetOfferUseCase(
                     header(HttpHeaders.Authorization, params.accessToken.authorization)
                 }
                 if (response.status.isSuccess()) {
-                    CallResult.Success<GetOfferResponseBody>(response.body())
+                    CallResult.Success(response.body())
                 } else {
                     CallResult.Error(AmadeusError.fromErrorJsonString(response.bodyAsText()))
                 }

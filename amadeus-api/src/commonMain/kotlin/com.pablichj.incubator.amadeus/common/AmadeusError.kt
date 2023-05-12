@@ -16,12 +16,12 @@ data class AmadeusError(
 ) {
     companion object {
 
-        private fun fromAmadeusErrorInList(amadeusErrorInList: AmadeusErrorInList): AmadeusError {
+        private fun fromAmadeusErrorInList(issue: Issue): AmadeusError {
             return AmadeusError(
-                title = amadeusErrorInList.title,
-                errorDescription = amadeusErrorInList.detail,
-                code = amadeusErrorInList.code,
-                error = amadeusErrorInList.status.toString()
+                title = issue.title,
+                errorDescription = issue.detail,
+                code = issue.code,
+                error = issue.status.toString()
             )
         }
 
@@ -53,7 +53,7 @@ data class AmadeusError(
                 null
             }
 
-            val firstErrorInList = amadeusErrorList?.errors?.firstOrNull() ?: AmadeusErrorInList()
+            val firstErrorInList = amadeusErrorList?.errors?.firstOrNull() ?: Issue()
 
             return fromAmadeusErrorInList(firstErrorInList)
         }
@@ -62,11 +62,11 @@ data class AmadeusError(
 
 @Serializable
 private class AmadeusErrorList(
-    val errors: List<AmadeusErrorInList>
+    val errors: List<Issue>
 )
 
 @Serializable
-private class AmadeusErrorInList(
+private class Issue(
     val status: Int = 0,
     val code: Int = 0,
     val title: String = "Unknown Error",
