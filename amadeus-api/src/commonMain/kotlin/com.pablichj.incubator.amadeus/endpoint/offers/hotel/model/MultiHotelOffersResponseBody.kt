@@ -7,7 +7,7 @@ import kotlinx.serialization.json.Json
 
 @Serializable
 data class MultiHotelOffersResponseBody(
-    val data: List<HotelWithOffers>
+    val data: List<HotelOfferSearch>
 ) {
     fun toJson(): String = Json.encodeToString(this)
 

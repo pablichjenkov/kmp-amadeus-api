@@ -1,19 +1,19 @@
 package com.pablichj.incubator.amadeus.endpoint.hotels.model
 
-import com.pablichj.incubator.amadeus.common.model.AddressCountry
+import com.pablichj.incubator.amadeus.common.model.Address
 import com.pablichj.incubator.amadeus.common.model.Distance
 import com.pablichj.incubator.amadeus.common.model.GeoCode
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class HotelListing(
-    val chainCode: String,
-    val iataCode: String,
-    val dupeId: Long,
-    val name: String,
-    val hotelId: String,
-    val geoCode: GeoCode,
-    val address: AddressCountry? = null,
-    val distance: Distance,
+    val chainCode: String? = null,
+    val iataCode: String? = null,
+    val dupeId: Long? = null,
+    val name: String? = null,
+    val hotelId: String? = null,
+    val geoCode: GeoCode? = null,
+    val address: Address? = null,
+    val distance: Distance? = null,
     val lastUpdate: String = ""
 )
