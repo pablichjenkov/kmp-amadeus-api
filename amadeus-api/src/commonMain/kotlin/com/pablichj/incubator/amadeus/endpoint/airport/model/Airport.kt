@@ -4,7 +4,7 @@ import com.pablichj.incubator.amadeus.common.model.Address
 import com.pablichj.incubator.amadeus.common.model.GeoCode
 
 @kotlinx.serialization.Serializable
-data class AirportInfo (
+data class Airport (
     val type: String,
     val subType: String,
     val name: String,
