@@ -44,8 +44,8 @@ class AirportDemoComponent(
         timeProvider
     )
 
-    private var flightOffers: List<FlightOffer>? = null
     private val console = mutableStateOf("")
+    private var flightOffers: List<FlightOffer>? = null
 
     override fun start() {
         super.start()

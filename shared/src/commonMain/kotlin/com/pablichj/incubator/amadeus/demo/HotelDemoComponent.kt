@@ -1,5 +1,6 @@
 package com.pablichj.incubator.amadeus.demo
 
+import FormParam
 import QueryParam
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -28,6 +29,7 @@ import com.pablichj.incubator.amadeus.endpoint.hotels.HotelsByCityRequest
 import com.pablichj.incubator.amadeus.endpoint.hotels.HotelsByCityUseCase
 import com.pablichj.incubator.amadeus.endpoint.offers.*
 import com.pablichj.incubator.amadeus.endpoint.offers.hotel.*
+import com.pablichj.incubator.amadeus.endpoint.offers.hotel.model.HotelOfferSearch
 import com.pablichj.templato.component.core.Component
 import com.pablichj.templato.component.platform.LocalSafeAreaInsets
 import kotlinx.coroutines.CoroutineScope
@@ -45,6 +47,7 @@ class HotelDemoComponent(
     )
 
     private val console = mutableStateOf("")
+    private var hotelOffers: List<HotelOfferSearch>? = null
 
     override fun start() {
         super.start()
@@ -73,6 +76,7 @@ class HotelDemoComponent(
                 is CallResult.Error -> {
                     output("Error fetching access token: ${callResult.error}")
                 }
+
                 is CallResult.Success -> {
                     val accessToken = callResult.responseBody
                     accessTokenDao.insert(accessToken)
@@ -103,7 +107,7 @@ class HotelDemoComponent(
                 CitySearchRequest(
                     accessToken,
                     listOf(
-                        QueryParam.CountryCode("US"),// todo remove hardcoded values
+                        QueryParam.CountryCode("US"),
                         QueryParam.Max("5"),
                         QueryParam.Keyword("Miami")
                     )
@@ -114,6 +118,7 @@ class HotelDemoComponent(
                 is CallResult.Error -> {
                     output("Error in city search: ${callResult.error}")
                 }
+
                 is CallResult.Success -> {
                     callResult.responseBody.data.forEach {
                         output(
@@ -152,7 +157,7 @@ class HotelDemoComponent(
                 HotelsByCityRequest(
                     accessToken,
                     listOf(
-                        QueryParam.CityCode("PAR"),// todo remove hardcoded values
+                        QueryParam.CityCode("PAR"),
                         QueryParam.Radius("1"),
                         QueryParam.RadiusUnit("KM"),
                         QueryParam.HotelSource("ALL")
@@ -164,6 +169,7 @@ class HotelDemoComponent(
                 is CallResult.Error -> {
                     output("Error in hotels by city: ${callResult.error}")
                 }
+
                 is CallResult.Success -> {
                     callResult.responseBody.data.forEach {
                         output(
@@ -202,11 +208,10 @@ class HotelDemoComponent(
                 MultiHotelOffersRequest(
                     accessToken,
                     listOf(
-                        QueryParam.HotelIds("MCLONGHM"),// ACPAR243 todo remove hardcoded values
+                        QueryParam.HotelIds("ACPAR243"),
                         QueryParam.Adults("1"),
-                        QueryParam.CheckInDate("2023-11-22"),
+                        QueryParam.CheckInDate("2023-09-22"),
                         QueryParam.RoomQuantity("1"),
-                        QueryParam.PaymentPolicy("NONE"),
                         QueryParam.BestRateOnly("false")
                     )
                 )
@@ -216,7 +221,9 @@ class HotelDemoComponent(
                 is CallResult.Error -> {
                     output("Error in multi hotel offers: ${callResult.error}")
                 }
+
                 is CallResult.Success -> {
+                    hotelOffers = callResult.responseBody.data
                     callResult.responseBody.data.forEach {
                         output(
                             """
@@ -240,7 +247,7 @@ class HotelDemoComponent(
         }
     }
 
-    private fun getOffer() {
+    private fun getOffer(offerId: String) {
         coroutineScope.launch {
             val accessToken = ResolveAccessTokenUseCaseSource(
                 Dispatchers,
@@ -259,7 +266,7 @@ class HotelDemoComponent(
             ).doWork(
                 GetOfferRequest(
                     accessToken,
-                    "TSXOJ6LFQ2"
+                    offerId
                 )
             )
 
@@ -267,6 +274,7 @@ class HotelDemoComponent(
                 is CallResult.Error -> {
                     output("Error in get offer by id: ${callResult.error}")
                 }
+
                 is CallResult.Success -> {
                     output("Offer in Hotel: ${callResult.responseBody.data.hotel.name}")
                     callResult.responseBody.data.offers.forEach {
@@ -275,7 +283,8 @@ class HotelDemoComponent(
                             Offer Id: ${it.id}
                             CheckInDate: ${it.checkInDate}
                             CheckOutDate: ${it.checkOutDate}
-                            Guests: ${it.guests}
+                            Guests Adults: ${it.guests?.adults}
+                            Guests Kids: ${it.guests?.childAges?.size}
                             Base Price: ${it.price.base}
                         """.trimIndent()
                         )
@@ -312,6 +321,7 @@ class HotelDemoComponent(
                 is CallResult.Error -> {
                     output("Error in hotel booking: ${callResult.error}")
                 }
+
                 is CallResult.Success -> {
                     callResult.responseBody.data.forEach {
                         output(
@@ -380,7 +390,17 @@ class HotelDemoComponent(
                     Text("Get Multi Hotel Offers")
                 }
                 Button(onClick = {
-                    getOffer()
+                    if (hotelOffers?.size == 0) {
+                        output("hotelOffers.size == 0. Do a successful hotel offer search before calling this function.")
+                        return@Button
+                    }
+                    val offers = hotelOffers?.get(0)?.offers
+                    if (offers.isNullOrEmpty()) {
+                        output("offers.size == 0. This Hotel Offer has zero offers")
+                        return@Button
+                    }
+                    val offerId = offers[0].id
+                    getOffer(offerId)
                 }) {
                     Text("Get Offer")
                 }

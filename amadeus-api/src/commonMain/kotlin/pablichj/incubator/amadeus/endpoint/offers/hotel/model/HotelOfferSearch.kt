@@ -42,7 +42,7 @@ data class HotelOfferSearch(
     @Serializable
     class Offer(
         val type: String? = null,
-        val id: String? = null,
+        val id: String,
         val checkInDate: String? = null,
         val checkOutDate: String? = null,
         val roomQuantity: Int? = null,
