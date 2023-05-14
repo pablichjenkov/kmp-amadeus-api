@@ -40,6 +40,6 @@ class AirportAndCitySearchUseCase(
     }
 
     companion object {
-        private val hotelsByCityUrl = "${Envs.TEST.hostUrl}/v1/reference-data/locations"
+        private val hotelsByCityUrl = "${Envs.TEST.hostUrl}/v1/reference-data/locations/airport"
     }
 }
