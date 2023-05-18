@@ -31,7 +31,7 @@ data class HotelOfferSearch(
         val latitude: Double? = null,
         val longitude: Double? = null,
         val address: Address? = null,
-        val amenities: List<String>
+        val amenities: List<String>? = null
     )
 
     /**
@@ -75,13 +75,8 @@ data class HotelOfferSearch(
      */
     @Serializable
     class Commission protected constructor() {
-
         val percentage: String? = null
-
-
         val amount: String? = null
-
-
         val description: QualifiedFreeText? = null
     }
 
@@ -91,13 +86,8 @@ data class HotelOfferSearch(
      */
     @Serializable
     class RoomDetails protected constructor() {
-
         val type: String? = null
-
-
         val typeEstimated: EstimatedRoomType? = null
-
-
         val description: QualifiedFreeText? = null
     }
 
@@ -107,13 +97,8 @@ data class HotelOfferSearch(
      */
     @Serializable
     class EstimatedRoomType protected constructor() {
-
         val category: String? = null
-
-
         val beds: Int? = null
-
-
         val bedType: String? = null
     }
 
@@ -234,24 +219,23 @@ data class HotelOfferSearch(
         val deadline: String? = null
     )
 
-
     @Serializable
-    class CheckInOutPolicy protected constructor() {
-        val checkIn: String? = null
-        val checkInDescription: QualifiedFreeText? = null
-        val checkOut: String? = null
+    class CheckInOutPolicy(
+        val checkIn: String? = null,
+        val checkInDescription: QualifiedFreeText? = null,
+        val checkOut: String? = null,
         val checkOutDescription: QualifiedFreeText? = null
-    }
+    )
 
     /**
      * An HotelOffer-related object as returned by the HotelOffers API v3.
      * @see com.amadeus.shopping.HotelOffers.get
      */
     @Serializable
-    class GuaranteePolicy protected constructor() {
-        val description: QualifiedFreeText? = null
+    class GuaranteePolicy(
+        val description: QualifiedFreeText? = null,
         val acceptedPayments: PaymentPolicy? = null
-    }
+    )
 
     /**
      * An HotelOffer-related object as returned by the HotelOffers API v3.
@@ -274,7 +258,7 @@ data class HotelOfferSearch(
     @Serializable
     class PaymentPolicy(
         val creditCards: List<String>,
-        val method: List<String>
+        val methods: List<String>
     )
 
     /**
