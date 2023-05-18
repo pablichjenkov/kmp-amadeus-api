@@ -132,7 +132,6 @@ class HotelDemoComponent(
                     }
                 }
             }
-
         }
     }
 
@@ -205,12 +204,13 @@ class HotelDemoComponent(
                 Dispatchers
             ).doWork(
                 //?hotelIds=MCLONGHM&adults=1&checkInDate=2023-11-22&roomQuantity=1&paymentPolicy=NONE&bestRateOnly=true
+                //hotelIds=HHMIA500&adults=1&checkInDate=2023-12-31&roomQuantity=1&bestRateOnly=false
                 MultiHotelOffersRequest(
                     accessToken,
                     listOf(
-                        QueryParam.HotelIds("ACPAR243"),
+                        QueryParam.HotelIds("HHMIA500"),
                         QueryParam.Adults("1"),
-                        QueryParam.CheckInDate("2023-09-22"),
+                        QueryParam.CheckInDate("2023-12-20"),
                         QueryParam.RoomQuantity("1"),
                         QueryParam.BestRateOnly("false")
                     )
