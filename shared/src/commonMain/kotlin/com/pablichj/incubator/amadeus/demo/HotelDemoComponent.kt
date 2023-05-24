@@ -247,7 +247,7 @@ class HotelDemoComponent(
         }
     }
 
-    private fun getOffer(offerId: String) {
+    private fun getFullOfferDetails(offerId: String) {
         coroutineScope.launch {
             val accessToken = ResolveAccessTokenUseCaseSource(
                 Dispatchers,
@@ -400,7 +400,7 @@ class HotelDemoComponent(
                         return@Button
                     }
                     val offerId = offers[0].id
-                    getOffer(offerId)
+                    getFullOfferDetails(offerId)
                 }) {
                     Text("Get Offer")
                 }
