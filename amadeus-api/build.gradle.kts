@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "io.github.pablichjenkov"
-version = "0.1.8"
+version = "0.1.9"
 val mavenCentralUser = extra["mavenCentral.user"] as String
 val mavenCentralPass = extra["mavenCentral.pass"] as String
 
@@ -208,7 +208,6 @@ android {
     }
     defaultConfig {
         minSdk = 26
-        targetSdk = 33
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11

@@ -257,8 +257,8 @@ data class HotelOfferSearch(
      */
     @Serializable
     class PaymentPolicy(
-        val creditCards: List<String>,
-        val methods: List<String>
+        val creditCards: List<String>? = null,
+        val methods: List<String>? = null
     )
 
     /**
