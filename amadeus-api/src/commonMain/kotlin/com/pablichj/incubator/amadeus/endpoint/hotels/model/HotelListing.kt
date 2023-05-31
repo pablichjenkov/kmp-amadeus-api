@@ -10,6 +10,7 @@ import kotlinx.serialization.Serializable
 data class HotelListing(
     val chainCode: String? = null,
     val iataCode: String? = null,
+    val giataId: String? = null,
     val dupeId: Long? = null,
     val name: String? = null,
     val hotelId: String? = null,
