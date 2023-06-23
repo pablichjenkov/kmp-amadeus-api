@@ -12,3 +12,11 @@ val commonMain by getting {
     }
 }
 ```
+
+<H5>Examples</H5>
+
+This is a project using it:<BR>
+https://github.com/pablichjenkov/amadeus-hotel-app
+
+Check the shared module within this repo and run the different platform Apps:<BR>
+https://github.com/pablichjenkov/kmp-amadeus-api/tree/main/shared
