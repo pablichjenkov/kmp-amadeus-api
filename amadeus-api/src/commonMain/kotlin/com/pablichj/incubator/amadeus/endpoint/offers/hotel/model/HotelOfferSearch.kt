@@ -1,6 +1,5 @@
 package com.pablichj.incubator.amadeus.endpoint.offers.hotel.model
 
-import com.pablichj.incubator.amadeus.common.model.Address
 import kotlinx.serialization.Serializable
 
 /**
@@ -30,8 +29,6 @@ data class HotelOfferSearch(
         val cityCode: String? = null,
         val latitude: Double? = null,
         val longitude: Double? = null,
-        val address: Address? = null,
-        val amenities: List<String>? = null
     )
 
     /**
