@@ -38,7 +38,6 @@ fun main() {
     val rootComponent = TreeBuilder.getRootComponent(database)
     val desktopBridge = DesktopBridge(
         appLifecycleDispatcher = DefaultAppLifecycleDispatcher(),
-        onBackPressEvent = { }
     )
 
     singleWindowApplication(

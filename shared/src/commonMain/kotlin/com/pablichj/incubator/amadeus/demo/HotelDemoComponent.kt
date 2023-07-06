@@ -49,14 +49,12 @@ class HotelDemoComponent(
     private val console = mutableStateOf("")
     private var hotelOffers: List<HotelOfferSearch>? = null
 
-    override fun start() {
-        super.start()
+    override fun onStart() {
         println("AmadeusDemoComponent::start()")
         output("AmadeusDemoComponent::start()")
     }
 
-    override fun stop() {
-        super.start()
+    override fun onStop() {
         println("AmadeusDemoComponent::stop()")
         output("AmadeusDemoComponent::stop()")
     }

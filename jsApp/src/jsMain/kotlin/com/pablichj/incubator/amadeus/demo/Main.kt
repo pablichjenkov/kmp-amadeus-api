@@ -8,8 +8,8 @@ import androidx.compose.ui.window.Window
 import com.pablichj.incubator.amadeus.Database
 import com.pablichj.incubator.amadeus.storage.DriverFactory
 import com.pablichj.incubator.amadeus.storage.createDatabase
-import com.pablichj.incubator.uistate3.BrowserComponentRender
-import com.pablichj.incubator.uistate3.BrowserViewportWindow
+import com.pablichj.templato.component.core.BrowserComponentRender
+import com.pablichj.templato.component.core.BrowserViewportWindow
 import org.jetbrains.skiko.wasm.onWasmReady
 
 fun main() {
