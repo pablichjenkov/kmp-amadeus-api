@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
+
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
@@ -5,11 +7,11 @@ plugins {
     id("app.cash.sqldelight")
     id("org.jetbrains.dokka")
     id("maven-publish")
-    signing
+    id("signing")
 }
 
 group = "io.github.pablichjenkov"
-version = "0.1.10"
+version = "0.2.0"
 val mavenCentralUser = extra["mavenCentral.user"] as String
 val mavenCentralPass = extra["mavenCentral.pass"] as String
 
@@ -19,6 +21,10 @@ val javadocJar: TaskProvider<Jar> by tasks.registering(Jar::class) {
     dependsOn(dokkaHtml)
     archiveClassifier.set("javadoc")
     from(dokkaHtml.outputDirectory)
+}
+
+signing {
+    sign(publishing.publications)
 }
 
 publishing {
@@ -82,14 +88,9 @@ publishing {
     }
 }
 
-signing {
-    sign(publishing.publications)
-}
-
 kotlin {
     // ANDROID
-    android()
-    android {
+    androidTarget {
         publishLibraryVariants("release")
     }
 
@@ -97,12 +98,15 @@ kotlin {
     iosArm64()
     iosSimulatorArm64()
     /*ios {
-        binaries {
-            framework {
-                baseName = 'shared'
+        binaries.framework {
+            baseName = project.name
+
+            compilations.all {
+                kotlinOptions.freeCompilerArgs += arrayOf("-linker-options", "-lsqlite3")
             }
         }
-    }*/
+    }
+    */
 
     // JS
     js(IR) {
@@ -119,18 +123,18 @@ kotlin {
     }
 */
     sourceSets {
-        val ktorVersion = "2.2.4"
+        val ktorVersion = "2.3.2"
         // COMMON
         val commonMain by getting {
             dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
                 implementation("io.ktor:ktor-client-core:$ktorVersion")
                 implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
                 implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
                 implementation("io.ktor:ktor-client-logging:$ktorVersion")
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
-                implementation ("ch.qos.logback:logback-classic:1.3.0")
+                implementation ("ch.qos.logback:logback-classic:1.3.5")
             }
         }
         val commonTest by getting {
@@ -144,7 +148,7 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 implementation("io.ktor:ktor-client-android:$ktorVersion")
-                implementation("app.cash.sqldelight:android-driver:2.0.0-alpha05")
+                implementation("app.cash.sqldelight:android-driver:2.0.0")
             }
         }
         val androidUnitTest by getting {
@@ -163,7 +167,7 @@ kotlin {
             iosSimulatorArm64Main.dependsOn(this)
             dependencies {
                 implementation("io.ktor:ktor-client-ios:$ktorVersion")
-                implementation("app.cash.sqldelight:native-driver:2.0.0-alpha05")
+                implementation("app.cash.sqldelight:native-driver:2.0.0")
             }
         }
         val iosArm64Test by getting
@@ -178,8 +182,10 @@ kotlin {
         val jsMain by getting {
             dependencies {
                 implementation("io.ktor:ktor-client-js:$ktorVersion")
-                implementation("app.cash.sqldelight:sqljs-driver:2.0.0-alpha05")
-                implementation(npm("sql.js", "1.6.2"))
+                implementation("app.cash.sqldelight:web-worker-driver:2.0.0")
+                implementation(npm("@cashapp/sqldelight-sqljs-worker", "2.0.0"))
+                implementation(npm("sql.js", "1.8.0"))
+                //implementation(npm("sql.js", "1.6.2"))
                 implementation(devNpm("copy-webpack-plugin", "9.1.0"))
                 // implementation(npm("@js-joda/timezone", "2.3.0"))
             }
@@ -190,7 +196,7 @@ kotlin {
             dependencies {
                 implementation("io.ktor:ktor-client-jvm:$ktorVersion")
                 implementation("io.ktor:ktor-client-java:$ktorVersion")
-                implementation("app.cash.sqldelight:sqlite-driver:2.0.0-alpha05")
+                implementation("app.cash.sqldelight:sqlite-driver:2.0.0")
             }
         }
     }
@@ -210,8 +216,8 @@ android {
         minSdk = 26
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 }
 
@@ -219,6 +225,8 @@ sqldelight {
     databases {
         create("Database") {
             packageName.set("com.pablichj.incubator.amadeus")
+            generateAsync.set(true)
         }
     }
+    linkSqlite = true  // <-- Important so it pass the linker flag to the obj-compiler
 }

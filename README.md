@@ -13,6 +13,20 @@ val commonMain by getting {
 }
 ```
 
+<H5>Xcode Setup</H5>
+
+In the project's `Build Settings` make sure the following properties contain bellow values. It ensures passing the linker flags to the objective-c compiler so it links AmadeusDemoKt and sqlite3 frameworks to the build.
+
+*Framework Search Path*
+```
+FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/../../shared/build/cocoapods/framework"
+```
+
+*Other Linker Flags*
+```
+OTHER_LDFLAGS = $(inherited) -ObjC -l"c++" -framework "AmadeusDemoKt" -lsqlite3
+```
+
 <H5>Examples</H5>
 
 This is a project using it:<BR>

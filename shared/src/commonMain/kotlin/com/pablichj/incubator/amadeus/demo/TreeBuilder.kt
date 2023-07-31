@@ -7,19 +7,23 @@ import com.pablichj.incubator.amadeus.Database
 import com.pablichj.templato.component.core.Component
 import com.pablichj.templato.component.core.NavItem
 import com.pablichj.templato.component.core.navbar.NavBarComponent
+import com.pablichj.templato.component.core.navbar.NavBarStatePresenterDefault
 import com.pablichj.templato.component.core.setNavItems
+import kotlinx.coroutines.Dispatchers
 
 object TreeBuilder {
 
-    private var navBarComponent: NavBarComponent? = null
+    private var navBarComponent: NavBarComponent<NavBarStatePresenterDefault>? = null
 
     fun getRootComponent(database: Database): Component {
 
-        navBarComponent?.let {
-            return it
-        }
+        navBarComponent?.let { return it }
 
-        return NavBarComponent().apply {
+        return NavBarComponent(
+            NavBarComponent.createDefaultState(dispatcher = Dispatchers.Main),
+            NavBarComponent.DefaultConfig,
+            NavBarComponent.DefaultNavBarComponentView
+        ).apply {
             navBarComponent = this
             setNavItems(
                 mutableListOf(
@@ -33,8 +37,7 @@ object TreeBuilder {
                         component = AirportDemoComponent(database),
                         icon = Icons.Default.Search
                     ),
-
-                    ), 0
+                ), 0
             )
         }
     }

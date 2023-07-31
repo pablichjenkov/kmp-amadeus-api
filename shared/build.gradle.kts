@@ -15,12 +15,10 @@ kotlin {
         summary = "Amadeus API umbrella module"
         homepage = "https://github.com/pablichjenkov/templato"
         ios.deploymentTarget = "16.0"
-        podfile = project.file("../iosApp/Podfile")
         framework {
             baseName = "AmadeusDemoKt"
             isStatic = true
         }
-        extraSpecAttributes["resources"] = "['src/commonMain/resources/**', 'src/iosMain/resources/**']"
     }
 
     // JS
@@ -39,8 +37,8 @@ kotlin {
                 implementation(compose.ui)
                 implementation(compose.material)
                 implementation(project(":amadeus-api"))
-                api("io.github.pablichjenkov:component-toolkit:0.4.0")
-                implementation("org.jetbrains.compose.components:components-resources:1.4.0-alpha01-dev942")
+                api("io.github.pablichjenkov:component-toolkit:0.5.0-beta01")
+                implementation("org.jetbrains.compose.components:components-resources:1.4.1")
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
             }
         }

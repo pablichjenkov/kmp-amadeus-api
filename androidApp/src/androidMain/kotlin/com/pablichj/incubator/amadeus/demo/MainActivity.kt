@@ -3,7 +3,6 @@ package com.pablichj.incubator.amadeus.demo
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.runtime.remember
 import androidx.lifecycle.lifecycleScope
 import com.pablichj.incubator.amadeus.storage.DriverFactory
 import com.pablichj.incubator.amadeus.storage.createDatabase
@@ -18,7 +17,7 @@ class MainActivity : ComponentActivity() {
             setContent {
                 AndroidComponentRender(
                     rootComponent = TreeBuilder.getRootComponent(database),
-                    onBackPressEvent = { finishAffinity() }
+                    onBackPress = { finishAffinity() }
                 )
             }
         }
