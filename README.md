@@ -1,4 +1,4 @@
-## Amadeus Kotlin Multiplatform Client
+## KMP client for Amadeus Self Service API
 A kotlin multiplatform library to access Amadeus System APIs.
 
 <H5>amadeus-api is on Maven Central</H5>
