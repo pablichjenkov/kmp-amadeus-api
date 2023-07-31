@@ -14,11 +14,11 @@ build/
 out/
 
 ### iOS Xcode generated ###
-iosApp/Podfile.lock
-iosApp/Pods/*
-iosApp/HelloWorld.xcworkspace/*
-iosApp/HelloWorld.xcodeproj/*
-!iosApp/HelloWorld.xcodeproj/project.pbxproj
+iOSDemoApp/Podfile.lock
+iOSDemoApp/Pods/*
+iOSDemoApp/iOSDemoApp.xcworkspace/*
+iOSDemoApp/iOSDemoApp.xcodeproj/*
+!iOSDemoApp/iOSDemoApp.xcodeproj/project.pbxproj
 shared/*.podspec
 
 ### Mac OS ###

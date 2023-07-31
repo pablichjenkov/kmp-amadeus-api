@@ -364,8 +364,7 @@ class HotelDemoComponent(
             )
             FlowRow(
                 modifier = Modifier.fillMaxWidth().padding(8.dp),
-                horizontalArrangement = Arrangement.SpaceEvenly,
-                verticalAlignment = Alignment.Top,
+                horizontalArrangement = Arrangement.SpaceEvenly
             ) {
                 Button(onClick = {
                     getAccessToken()

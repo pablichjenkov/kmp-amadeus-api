@@ -9,12 +9,11 @@ import com.pablichj.incubator.amadeus.Database
 import com.pablichj.incubator.amadeus.storage.DriverFactory
 import com.pablichj.incubator.amadeus.storage.createDatabase
 import com.pablichj.templato.component.core.BrowserComponentRender
-import com.pablichj.templato.component.core.BrowserViewportWindow
 import org.jetbrains.skiko.wasm.onWasmReady
 
 fun main() {
     onWasmReady {
-/*
+
         Window("Amadeus API Demo") {
             Text("Loading SQDelight")
             val database = remember(Unit) { mutableStateOf<Database?>(null) }
@@ -26,7 +25,7 @@ fun main() {
                 val hotelDemoComponent = TreeBuilder.getRootComponent(databaseCopy)
                 BrowserComponentRender(
                     rootComponent = hotelDemoComponent,
-                    onBackPressEvent = {
+                    onBackPress = {
                         println("Back press dispatched in root node")
                     }
                 )
@@ -39,26 +38,30 @@ fun main() {
                 database.value = createDatabase(DriverFactory())
             }
         }
-*/
+
+/*
         BrowserViewportWindow("Amadeus API Demo") {
-            val database = remember(this@BrowserViewportWindow) { mutableStateOf<Database?>(null) }
+            val database = remember(key1 = Unit) { mutableStateOf<Database?>(null) }
             val databaseCopy = database.value
 
             if (databaseCopy != null) {
                 val hotelDemoComponent = TreeBuilder.getRootComponent(databaseCopy)
+
                 BrowserComponentRender(
                     rootComponent = hotelDemoComponent,
-                    onBackPressEvent = {
+                    onBackPress = {
                         println("Back press dispatched in root node")
                     }
                 )
+
             } else {
                 Text("Loading SQDelight")
             }
-            LaunchedEffect(this@BrowserViewportWindow) {
+            LaunchedEffect(key1 = Unit) {
                 database.value = createDatabase(DriverFactory())
             }
         }
+*/
     }
 }
 
