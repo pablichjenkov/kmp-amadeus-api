@@ -1,7 +1,7 @@
 ## Amadeus Kotlin Multiplatform Client
 A kotlin multiplatform library to access Amadeus System APIs.
 
-<H3>Want to try it?</H3>
+<H5>amadeus-api is on Maven Central</H5>
 
 ```
 // your-project-root-path/shared/build.gradle
