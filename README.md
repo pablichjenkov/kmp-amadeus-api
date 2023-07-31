@@ -13,6 +13,14 @@ val commonMain by getting {
 }
 ```
 
+<H5>Amadeus API Key</H5>
+
+In order to be able to access Amadeus public API once need to create an Account here:
+
+https://developers.amadeus.com/self-service
+
+and get an Api key. Pass the token as parameter to the different use cases that need it.
+
 <H5>Xcode Setup</H5>
 
 In the project's `Build Settings` make sure the following properties contain bellow values. It ensures passing the linker flags to the objective-c compiler so it links AmadeusDemoKt and sqlite3 frameworks to the build.
