@@ -34,6 +34,7 @@ struct ContentView: View {
     var body: some View {
         ComposeView(iosBridge: iosBridge)
                 .ignoresSafeArea(.keyboard) // Compose has own keyboard handler
+                //.ignoresSafeArea(.all, edges: .bottom) // If prefered to handle this in compose land
 
     }
 }

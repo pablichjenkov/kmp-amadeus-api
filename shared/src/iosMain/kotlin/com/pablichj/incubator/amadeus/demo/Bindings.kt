@@ -7,9 +7,7 @@ import com.pablichj.templato.component.core.IosComponentRender
 import com.pablichj.templato.component.platform.DefaultAppLifecycleDispatcher
 import com.pablichj.templato.component.platform.IosBridge
 import com.pablichj.templato.component.platform.SafeAreaInsets
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.supervisorScope
 import platform.UIKit.UIViewController
 
 fun ComponentRenderer(
