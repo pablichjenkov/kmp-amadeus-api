@@ -6,7 +6,6 @@ import com.pablichj.templato.component.core.Component
 import com.pablichj.templato.component.core.IosComponentRender
 import com.pablichj.templato.component.platform.DefaultAppLifecycleDispatcher
 import com.pablichj.templato.component.platform.IosBridge
-import com.pablichj.templato.component.platform.SafeAreaInsets
 import kotlinx.coroutines.runBlocking
 import platform.UIKit.UIViewController
 
@@ -24,7 +23,6 @@ fun buildAmadeusDemoComponent(): Component {
 
 fun createPlatformBridge(): IosBridge {
     return IosBridge(
-        appLifecycleDispatcher = DefaultAppLifecycleDispatcher(),
-        safeAreaInsets = SafeAreaInsets()
+        appLifecycleDispatcher = DefaultAppLifecycleDispatcher()
     )
 }

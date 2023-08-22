@@ -1,6 +1,6 @@
 package com.pablichj.incubator.amadeus.demo
 
-import androidx.compose.material.Text
+import androidx.compose.material3.Text
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -9,10 +9,13 @@ import com.pablichj.incubator.amadeus.Database
 import com.pablichj.incubator.amadeus.storage.DriverFactory
 import com.pablichj.incubator.amadeus.storage.createDatabase
 import com.pablichj.templato.component.core.BrowserComponentRender
+import com.pablichj.templato.component.platform.JsBridge
 import org.jetbrains.skiko.wasm.onWasmReady
 
 fun main() {
     onWasmReady {
+
+        val jsBridge = JsBridge()
 
         Window("Amadeus API Demo") {
             Text("Loading SQDelight")
@@ -25,6 +28,7 @@ fun main() {
                 val hotelDemoComponent = TreeBuilder.getRootComponent(databaseCopy)
                 BrowserComponentRender(
                     rootComponent = hotelDemoComponent,
+                    jsBridge = jsBridge,
                     onBackPress = {
                         println("Back press dispatched in root node")
                     }

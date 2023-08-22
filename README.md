@@ -8,7 +8,7 @@ A kotlin multiplatform library to access Amadeus System APIs.
 
 val commonMain by getting {
     dependencies {
-        implementation("io.github.pablichjenkov:amadeus-api:0.1.10")
+        implementation("io.github.pablichjenkov:amadeus-api:0.2.0-rc02")
     }
 }
 ```

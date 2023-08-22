@@ -6,11 +6,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Button
-import androidx.compose.material.Text
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
@@ -31,7 +30,6 @@ import com.pablichj.incubator.amadeus.endpoint.offers.*
 import com.pablichj.incubator.amadeus.endpoint.offers.hotel.*
 import com.pablichj.incubator.amadeus.endpoint.offers.hotel.model.HotelOfferSearch
 import com.pablichj.templato.component.core.Component
-import com.pablichj.templato.component.platform.LocalSafeAreaInsets
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -351,9 +349,8 @@ class HotelDemoComponent(
     @OptIn(ExperimentalLayoutApi::class)
     @Composable
     override fun Content(modifier: Modifier) {
-        val safeAreaInsets = LocalSafeAreaInsets.current
         Column(
-            modifier.fillMaxSize().padding(top = safeAreaInsets.top.dp)
+            modifier.fillMaxSize()
         ) {
             Spacer(Modifier.fillMaxWidth().height(24.dp))
             Text(

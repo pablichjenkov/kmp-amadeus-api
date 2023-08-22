@@ -13,15 +13,7 @@ struct iOSDemoAppApp: App {
 
     let iosBridge = BindingsKt.createPlatformBridge()
        
-       //let left = Int32(0)//Int32(safeAreaInsets.left.rounded())
-       //let top = Int32(40)//Int32(safeAreaInsets.top.rounded())
-       //let right = Int32(0)//Int32(safeAreaInsets.right.rounded())
-       //let bottom = Int32(24)//Int32(safeAreaInsets.bottom.rounded())
        init() {
-           iosBridge.safeAreaInsets.start = Int32(0)//left
-           iosBridge.safeAreaInsets.top = Int32(0) //top
-           iosBridge.safeAreaInsets.end = Int32(0)//right
-           iosBridge.safeAreaInsets.bottom = Int32(0)//bottom
        }
        
        var body: some Scene {
