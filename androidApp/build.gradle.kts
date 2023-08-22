@@ -14,7 +14,7 @@ kotlin {
                 implementation(compose.runtime)
                 implementation(compose.foundation)
                 implementation(compose.ui)
-                implementation(compose.material)
+                implementation(compose.material3)
                 implementation("androidx.activity:activity-compose:1.7.2")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
@@ -25,12 +25,12 @@ kotlin {
 
 android {
     namespace = "com.pablichj.incubator.amadeus.demo"
-    compileSdk = 33
+    compileSdk = (findProperty("android.compileSdk") as String).toInt()
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
         applicationId = "com.pablichj.incubator.amadeus.demo"
-        minSdk = 26
-        targetSdk = 33
+        minSdk = (findProperty("android.minSdk") as String).toInt()
+        targetSdk = (findProperty("android.targetSdk") as String).toInt()
         versionCode = 1
         versionName = "1.0"
     }

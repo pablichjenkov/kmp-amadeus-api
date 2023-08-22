@@ -13,7 +13,7 @@ kotlin {
     iosSimulatorArm64()
     cocoapods {
         summary = "Amadeus API umbrella module"
-        homepage = "https://github.com/pablichjenkov/templato"
+        homepage = "https://github.com/pablichjenkov/kmp-amadeus-api"
         ios.deploymentTarget = "16.0"
         framework {
             baseName = "AmadeusDemoKt"
@@ -35,10 +35,10 @@ kotlin {
                 implementation(compose.runtime)
                 implementation(compose.foundation)
                 implementation(compose.ui)
-                implementation(compose.material)
+                implementation(compose.material3)
                 implementation(project(":amadeus-api"))
-                api("io.github.pablichjenkov:component-toolkit:0.5.0-beta01")
-                implementation("org.jetbrains.compose.components:components-resources:1.4.1")
+                api("io.github.pablichjenkov:component-toolkit:0.5.0-rc02")
+                implementation("org.jetbrains.compose.components:components-resources:1.4.3")
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
             }
         }

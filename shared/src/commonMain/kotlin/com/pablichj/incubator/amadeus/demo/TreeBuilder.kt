@@ -6,9 +6,13 @@ import androidx.compose.material.icons.filled.Search
 import com.pablichj.incubator.amadeus.Database
 import com.pablichj.templato.component.core.Component
 import com.pablichj.templato.component.core.NavItem
+import com.pablichj.templato.component.core.NavigationComponent
+import com.pablichj.templato.component.core.NavigationComponentDefaultLifecycleHandler
 import com.pablichj.templato.component.core.navbar.NavBarComponent
+import com.pablichj.templato.component.core.navbar.NavBarStatePresenter
 import com.pablichj.templato.component.core.navbar.NavBarStatePresenterDefault
 import com.pablichj.templato.component.core.setNavItems
+import com.pablichj.templato.component.platform.CoroutineDispatchers
 import kotlinx.coroutines.Dispatchers
 
 object TreeBuilder {
@@ -20,9 +24,13 @@ object TreeBuilder {
         navBarComponent?.let { return it }
 
         return NavBarComponent(
-            NavBarComponent.createDefaultState(dispatcher = Dispatchers.Main),
-            NavBarComponent.DefaultConfig,
-            NavBarComponent.DefaultNavBarComponentView
+            navBarStatePresenter = NavBarComponent.createDefaultNavBarStatePresenter(
+                dispatcher = Dispatchers.Main
+            ),
+            config = NavBarComponent.DefaultConfig,
+            lifecycleHandler = NavigationComponentDefaultLifecycleHandler(),
+            dispatchers = CoroutineDispatchers.Defaults,
+            content = NavBarComponent.DefaultNavBarComponentView
         ).apply {
             navBarComponent = this
             setNavItems(
@@ -37,7 +45,8 @@ object TreeBuilder {
                         component = AirportDemoComponent(database),
                         icon = Icons.Default.Search
                     ),
-                ), 0
+                ),
+                newSelectedIndex = 0
             )
         }
     }

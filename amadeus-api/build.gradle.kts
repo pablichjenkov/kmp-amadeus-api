@@ -11,7 +11,7 @@ plugins {
 }
 
 group = "io.github.pablichjenkov"
-version = "0.2.0"
+version = "0.2.0-rc02"
 val mavenCentralUser = extra["mavenCentral.user"] as String
 val mavenCentralPass = extra["mavenCentral.pass"] as String
 
@@ -86,6 +86,12 @@ publishing {
             from(components["java"])
         }*/
     }
+}
+
+// Workaround for gradle issue: https://youtrack.jetbrains.com/issue/KT-46466
+val signingTasks = tasks.withType<Sign>()
+tasks.withType<AbstractPublishToMaven>().configureEach {
+    dependsOn(signingTasks)
 }
 
 kotlin {
@@ -205,7 +211,7 @@ kotlin {
 
 android {
     namespace = "com.pablichj.incubator.amadeus"
-    compileSdk = 33
+    compileSdk = (findProperty("android.compileSdk") as String).toInt()
     sourceSets {
         named("main") {
             manifest.srcFile("src/androidMain/AndroidManifest.xml")
@@ -213,7 +219,7 @@ android {
         }
     }
     defaultConfig {
-        minSdk = 26
+        minSdk = (findProperty("android.minSdk") as String).toInt()
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
