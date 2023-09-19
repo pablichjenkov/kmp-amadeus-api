@@ -15,6 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.macaosoftware.component.core.Component
 import com.pablichj.incubator.amadeus.Database
 import com.pablichj.incubator.amadeus.common.CallResult
 import com.pablichj.incubator.amadeus.common.DefaultTimeProvider
@@ -27,13 +28,12 @@ import com.pablichj.incubator.amadeus.endpoint.offers.flight.*
 import com.pablichj.incubator.amadeus.endpoint.offers.flight.model.FlightOffer
 import com.pablichj.incubator.amadeus.endpoint.offers.flight.model.FlightOffersConfirmationRequestBody
 import com.pablichj.incubator.amadeus.endpoint.offers.flight.model.FlightOffersConfirmationRequestBodyBoxing
-import com.pablichj.templato.component.core.Component
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class AirportDemoComponent(
-    private val database: Database
+    database: Database
 ) : Component() {
     private val coroutineScope = CoroutineScope(Dispatchers.Main)
     private val timeProvider: ITimeProvider = DefaultTimeProvider()
@@ -46,13 +46,13 @@ class AirportDemoComponent(
     private var flightOffers: List<FlightOffer>? = null
 
     override fun onStart() {
-        println("AmadeusDemoComponent::start()")
-        output("AmadeusDemoComponent::start()")
+        println("AirportDemoComponent::start()")
+        output("AirportDemoComponent::start()")
     }
 
     override fun onStop() {
-        println("AmadeusDemoComponent::stop()")
-        output("AmadeusDemoComponent::stop()")
+        println("AirportDemoComponent::stop()")
+        output("AirportDemoComponent::stop()")
     }
 
     private fun getAccessToken() {

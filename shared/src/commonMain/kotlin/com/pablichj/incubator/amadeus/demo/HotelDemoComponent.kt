@@ -15,6 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.macaosoftware.component.core.Component
 import com.pablichj.incubator.amadeus.Database
 import com.pablichj.incubator.amadeus.common.CallResult
 import com.pablichj.incubator.amadeus.common.DefaultTimeProvider
@@ -29,7 +30,6 @@ import com.pablichj.incubator.amadeus.endpoint.hotels.HotelsByCityUseCase
 import com.pablichj.incubator.amadeus.endpoint.offers.*
 import com.pablichj.incubator.amadeus.endpoint.offers.hotel.*
 import com.pablichj.incubator.amadeus.endpoint.offers.hotel.model.HotelOfferSearch
-import com.pablichj.templato.component.core.Component
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -48,13 +48,13 @@ class HotelDemoComponent(
     private var hotelOffers: List<HotelOfferSearch>? = null
 
     override fun onStart() {
-        println("AmadeusDemoComponent::start()")
-        output("AmadeusDemoComponent::start()")
+        println("HotelDemoComponent::start()")
+        output("HotelDemoComponent::start()")
     }
 
     override fun onStop() {
-        println("AmadeusDemoComponent::stop()")
-        output("AmadeusDemoComponent::stop()")
+        println("HotelDemoComponent::stop()")
+        output("HotelDemoComponent::stop()")
     }
 
     private fun getAccessToken() {

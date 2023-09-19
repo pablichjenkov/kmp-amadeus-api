@@ -129,17 +129,17 @@ kotlin {
     }
 */
     sourceSets {
-        val ktorVersion = "2.3.2"
+        val ktorVersion = "2.3.4"
         // COMMON
         val commonMain by getting {
             dependencies {
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
                 implementation("io.ktor:ktor-client-core:$ktorVersion")
                 implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
                 implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
                 implementation("io.ktor:ktor-client-logging:$ktorVersion")
-                implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
+                implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.1")
                 implementation ("ch.qos.logback:logback-classic:1.3.5")
             }
         }
@@ -191,9 +191,7 @@ kotlin {
                 implementation("app.cash.sqldelight:web-worker-driver:2.0.0")
                 implementation(npm("@cashapp/sqldelight-sqljs-worker", "2.0.0"))
                 implementation(npm("sql.js", "1.8.0"))
-                //implementation(npm("sql.js", "1.6.2"))
                 implementation(devNpm("copy-webpack-plugin", "9.1.0"))
-                // implementation(npm("@js-joda/timezone", "2.3.0"))
             }
         }
 

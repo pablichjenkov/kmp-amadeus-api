@@ -4,10 +4,13 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.lifecycle.lifecycleScope
+import com.macaosoftware.component.AndroidComponentRender
+import com.macaosoftware.component.navbar.NavBarComponent
+import com.macaosoftware.component.navbar.NavBarComponentDefaults
+import com.macaosoftware.platform.AndroidBridge
 import com.pablichj.incubator.amadeus.storage.DriverFactory
 import com.pablichj.incubator.amadeus.storage.createDatabase
-import com.pablichj.templato.component.core.AndroidComponentRender
-import com.pablichj.templato.component.platform.AndroidBridge
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
@@ -18,9 +21,16 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         lifecycleScope.launch {
             val database = createDatabase(DriverFactory(this@MainActivity))
+            val navBarComponent = NavBarComponent(
+                navBarStatePresenter = NavBarComponentDefaults.createNavBarStatePresenter(
+                    dispatcher = Dispatchers.Main
+                ),
+                componentViewModel = AppNavBarViewModel(database),
+                content = NavBarComponentDefaults.NavBarComponentView
+            )
             setContent {
                 AndroidComponentRender(
-                    rootComponent = TreeBuilder.getRootComponent(database),
+                    rootComponent = navBarComponent,
                     androidBridge = androidBridge,
                     onBackPress = { finishAffinity() }
                 )
