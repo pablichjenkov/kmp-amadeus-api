@@ -25,10 +25,13 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.singleWindowApplication
+import com.macaosoftware.component.DesktopComponentRender
+import com.macaosoftware.component.navbar.NavBarComponent
+import com.macaosoftware.component.navbar.NavBarComponentDefaults
+import com.macaosoftware.platform.DesktopBridge
 import com.pablichj.incubator.amadeus.storage.DriverFactory
 import com.pablichj.incubator.amadeus.storage.createDatabase
-import com.pablichj.templato.component.core.DesktopComponentRender
-import com.pablichj.templato.component.platform.DesktopBridge
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import kotlin.system.exitProcess
 
@@ -37,7 +40,13 @@ fun main() {
 
     val database = runBlocking { createDatabase(DriverFactory()) }
 
-    val rootComponent = TreeBuilder.getRootComponent(database)
+    val navBarComponent = NavBarComponent(
+        navBarStatePresenter = NavBarComponentDefaults.createNavBarStatePresenter(
+            dispatcher = Dispatchers.Main
+        ),
+        componentViewModel = AppNavBarViewModel(database),
+        content = NavBarComponentDefaults.NavBarComponentView
+    )
     val desktopBridge = DesktopBridge()
 
     singleWindowApplication(
@@ -101,7 +110,7 @@ fun main() {
                     }
                 }
                 DesktopComponentRender(
-                    rootComponent = rootComponent,
+                    rootComponent = navBarComponent,
                     windowState = windowState,
                     desktopBridge = desktopBridge
                 )

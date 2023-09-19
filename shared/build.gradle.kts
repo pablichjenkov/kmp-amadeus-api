@@ -37,9 +37,9 @@ kotlin {
                 implementation(compose.ui)
                 implementation(compose.material3)
                 implementation(project(":amadeus-api"))
-                api("io.github.pablichjenkov:component-toolkit:0.5.0-rc02")
-                implementation("org.jetbrains.compose.components:components-resources:1.4.3")
-                implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
+                api("io.github.pablichjenkov:component-toolkit:0.5.1")
+                implementation("org.jetbrains.compose.components:components-resources:1.5.1")
+                implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.1")
             }
         }
         val commonTest by getting {

@@ -1,10 +1,3 @@
-//
-//  iOSDemoAppApp.swift
-//  iOSDemoApp
-//
-//  Created by Pablo Valdes on 7/31/23.
-//
-
 import SwiftUI
 import AmadeusDemoKt
 

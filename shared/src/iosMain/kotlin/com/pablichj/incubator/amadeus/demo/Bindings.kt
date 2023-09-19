@@ -1,11 +1,14 @@
 package com.pablichj.incubator.amadeus.demo
 
+import com.macaosoftware.component.IosComponentRender
+import com.macaosoftware.component.core.Component
+import com.macaosoftware.component.navbar.NavBarComponent
+import com.macaosoftware.component.navbar.NavBarComponentDefaults
+import com.macaosoftware.platform.DefaultAppLifecycleDispatcher
+import com.macaosoftware.platform.IosBridge
 import com.pablichj.incubator.amadeus.storage.DriverFactory
 import com.pablichj.incubator.amadeus.storage.createDatabase
-import com.pablichj.templato.component.core.Component
-import com.pablichj.templato.component.core.IosComponentRender
-import com.pablichj.templato.component.platform.DefaultAppLifecycleDispatcher
-import com.pablichj.templato.component.platform.IosBridge
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import platform.UIKit.UIViewController
 
@@ -16,8 +19,14 @@ fun ComponentRenderer(
 
 fun buildAmadeusDemoComponent(): Component {
     return runBlocking {
-        val db = createDatabase(DriverFactory())
-        TreeBuilder.getRootComponent(db)
+        val database = createDatabase(DriverFactory())
+        NavBarComponent(
+            navBarStatePresenter = NavBarComponentDefaults.createNavBarStatePresenter(
+                dispatcher = Dispatchers.Main
+            ),
+            componentViewModel = AppNavBarViewModel(database),
+            content = NavBarComponentDefaults.NavBarComponentView
+        )
     }
 }
 
