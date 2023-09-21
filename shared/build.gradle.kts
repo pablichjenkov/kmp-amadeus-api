@@ -1,7 +1,6 @@
 plugins {
     kotlin("multiplatform")
     id("org.jetbrains.compose")
-    kotlin("native.cocoapods")
     id("com.github.gmazzo.buildconfig")
 }
 
@@ -9,15 +8,15 @@ version = "1.0-SNAPSHOT"
 
 kotlin {
     // IOS
-    iosArm64()
-    iosSimulatorArm64()
-    cocoapods {
-        summary = "Amadeus API umbrella module"
-        homepage = "https://github.com/pablichjenkov/kmp-amadeus-api"
-        ios.deploymentTarget = "16.0"
-        framework {
-            baseName = "AmadeusDemoKt"
-            isStatic = true
+    listOf(
+        iosArm64(),
+        iosSimulatorArm64()
+    ).forEach { iosTarget ->
+        iosTarget.binaries {
+            framework {
+                baseName = "AmadeusDemoKt"
+                isStatic = true
+            }
         }
     }
 
