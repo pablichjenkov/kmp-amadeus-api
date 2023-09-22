@@ -6,23 +6,25 @@ import com.pablichj.incubator.amadeus.common.Envs
 import com.pablichj.incubator.amadeus.common.SingleUseCase
 import com.pablichj.incubator.amadeus.endpoint.accesstoken.model.AccessToken
 import com.pablichj.incubator.amadeus.httpClient
-import io.ktor.client.call.*
-import io.ktor.client.request.forms.*
-import io.ktor.client.statement.*
-import io.ktor.http.*
+import io.ktor.client.call.body
+import io.ktor.client.request.forms.submitForm
+import io.ktor.client.statement.bodyAsText
+import io.ktor.http.Parameters
+import io.ktor.http.isSuccess
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class GetAccessTokenUseCase(
-    private val dispatcher: Dispatchers
-) : SingleUseCase<GetAccessTokenRequest, CallResult<AccessToken>> {
-    override suspend fun doWork(params: GetAccessTokenRequest): CallResult<AccessToken> {
+    private val dispatcher: Dispatchers,
+    private val getAccessTokenRequest: GetAccessTokenRequest
+) : SingleUseCase<CallResult<AccessToken>> {
+    override suspend fun doWork(): CallResult<AccessToken> {
         return withContext(dispatcher.Unconfined) {
             try {
                 val response = httpClient.submitForm(
                     url = tokenUrl,
                     formParameters = Parameters.build {
-                        params.formParams.forEach {
+                        getAccessTokenRequest.formParams.forEach {
                             append(it.key, it.value)
                         }
                     }

@@ -6,24 +6,30 @@ import com.pablichj.incubator.amadeus.common.Envs
 import com.pablichj.incubator.amadeus.common.SingleUseCase
 import com.pablichj.incubator.amadeus.endpoint.offers.hotel.model.GetOfferResponseBody
 import com.pablichj.incubator.amadeus.httpClient
-import io.ktor.client.call.*
-import io.ktor.client.request.*
-import io.ktor.client.statement.*
-import io.ktor.http.*
+import io.ktor.client.call.body
+import io.ktor.client.request.get
+import io.ktor.client.request.header
+import io.ktor.client.statement.bodyAsText
+import io.ktor.http.HttpHeaders
+import io.ktor.http.appendEncodedPathSegments
+import io.ktor.http.isSuccess
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class GetOfferUseCase(
-    private val dispatcher: Dispatchers
-) : SingleUseCase<GetOfferRequest, CallResult<GetOfferResponseBody>> {
-    override suspend fun doWork(params: GetOfferRequest): CallResult<GetOfferResponseBody> {
+    private val dispatcher: Dispatchers,
+    private val getOfferRequest: GetOfferRequest
+) : SingleUseCase<CallResult<GetOfferResponseBody>> {
+    override suspend fun doWork(): CallResult<GetOfferResponseBody> {
         return withContext(dispatcher.Unconfined) {
             try {
                 val response = httpClient.get(getOfferUrl) {
                     url {
-                        appendEncodedPathSegments("/hotel-offers/${params.offerId}")
+                        appendEncodedPathSegments(
+                            "/hotel-offers/${getOfferRequest.offerId}"
+                        )
                     }
-                    header(HttpHeaders.Authorization, params.accessToken.authorization)
+                    header(HttpHeaders.Authorization, getOfferRequest.accessToken.authorization)
                 }
                 if (response.status.isSuccess()) {
                     CallResult.Success(response.body())

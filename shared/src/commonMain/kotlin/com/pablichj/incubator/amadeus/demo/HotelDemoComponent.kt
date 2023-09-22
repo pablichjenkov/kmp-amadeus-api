@@ -23,9 +23,7 @@ import com.pablichj.incubator.amadeus.common.ITimeProvider
 import com.pablichj.incubator.amadeus.endpoint.accesstoken.*
 import com.pablichj.incubator.amadeus.endpoint.booking.hotel.HotelBookingRequest
 import com.pablichj.incubator.amadeus.endpoint.booking.hotel.HotelBookingUseCase
-import com.pablichj.incubator.amadeus.endpoint.city.CitySearchRequest
 import com.pablichj.incubator.amadeus.endpoint.city.CitySearchUseCase
-import com.pablichj.incubator.amadeus.endpoint.hotels.HotelsByCityRequest
 import com.pablichj.incubator.amadeus.endpoint.hotels.HotelsByCityUseCase
 import com.pablichj.incubator.amadeus.endpoint.offers.*
 import com.pablichj.incubator.amadeus.endpoint.offers.hotel.*
@@ -59,7 +57,8 @@ class HotelDemoComponent(
 
     private fun getAccessToken() {
         coroutineScope.launch {
-            val callResult = GetAccessTokenUseCase(Dispatchers).doWork(
+            val callResult = GetAccessTokenUseCase(
+                Dispatchers,
                 GetAccessTokenRequest(
                     listOf(
                         FormParam.ClientId(ApiCredentials.apiKey),
@@ -67,7 +66,7 @@ class HotelDemoComponent(
                         FormParam.GrantType(GetAccessTokenUseCase.AccessTokenGrantType),
                     )
                 )
-            )
+            ).doWork()
             when (callResult) {
                 is CallResult.Error -> {
                     output("Error fetching access token: ${callResult.error}")
@@ -96,19 +95,17 @@ class HotelDemoComponent(
                 output("Using saved token: ${accessToken.accessToken}")
             }
 
+            // Example query url
+            //?countryCode=FR
+            // &keyword=PARIS
+            // &max=10
             val callResult = CitySearchUseCase(
-                Dispatchers
-            ).doWork(
-                //?countryCode=FR&keyword=PARIS&max=10
-                CitySearchRequest(
-                    accessToken,
-                    listOf(
-                        QueryParam.CountryCode("US"),
-                        QueryParam.Max("5"),
-                        QueryParam.Keyword("Miami")
-                    )
-                )
-            )
+                Dispatchers,
+                accessToken,
+                QueryParam.CountryCode("US"),
+                QueryParam.Keyword("Miami"),
+                QueryParam.Max("5")
+            ).doWork()
 
             when (callResult) {
                 is CallResult.Error -> {
@@ -145,20 +142,19 @@ class HotelDemoComponent(
                 output("Using saved token: ${accessToken.accessToken}")
             }
 
+            // Example query url
+            //?cityCode=PAR
+            // &radius=1
+            // &radiusUnit=KM
+            // &hotelSource=ALL
             val callResult = HotelsByCityUseCase(
-                Dispatchers
-            ).doWork(
-                //?cityCode=PAR&radius=1&radiusUnit=KM&hotelSource=ALL
-                HotelsByCityRequest(
-                    accessToken,
-                    listOf(
-                        QueryParam.CityCode("PAR"),
-                        QueryParam.Radius("1"),
-                        QueryParam.RadiusUnit("KM"),
-                        QueryParam.HotelSource("ALL")
-                    )
-                )
-            )
+                Dispatchers,
+                accessToken,
+                QueryParam.CityCode("PAR"),
+                QueryParam.Radius("1"),
+                QueryParam.RadiusUnit("KM"),
+                QueryParam.HotelSource("ALL")
+            ).doWork()
 
             when (callResult) {
                 is CallResult.Error -> {
@@ -196,22 +192,18 @@ class HotelDemoComponent(
                 output("Using saved token: ${accessToken.accessToken}")
             }
 
+            // Example queries
+            //?hotelIds=MCLONGHM&adults=1&checkInDate=2023-11-22&roomQuantity=1&paymentPolicy=NONE&bestRateOnly=true
+            //hotelIds=HHMIA500&adults=1&checkInDate=2023-12-31&roomQuantity=1&bestRateOnly=false
             val callResult = MultiHotelOffersUseCase(
-                Dispatchers
-            ).doWork(
-                //?hotelIds=MCLONGHM&adults=1&checkInDate=2023-11-22&roomQuantity=1&paymentPolicy=NONE&bestRateOnly=true
-                //hotelIds=HHMIA500&adults=1&checkInDate=2023-12-31&roomQuantity=1&bestRateOnly=false
-                MultiHotelOffersRequest(
-                    accessToken,
-                    listOf(
-                        QueryParam.HotelIds("HHMIA500"),
-                        QueryParam.Adults("1"),
-                        QueryParam.CheckInDate("2023-12-20"),
-                        QueryParam.RoomQuantity("1"),
-                        QueryParam.BestRateOnly("false")
-                    )
-                )
-            )
+                Dispatchers,
+                accessToken,
+                QueryParam.HotelIds("HHMIA500"),
+                QueryParam.Adults("1"),
+                QueryParam.CheckInDate("2023-12-20"),
+                QueryParam.RoomQuantity("1"),
+                QueryParam.BestRateOnly("false")
+            ).doWork()
 
             when (callResult) {
                 is CallResult.Error -> {
@@ -258,13 +250,9 @@ class HotelDemoComponent(
             }
 
             val callResult = GetOfferUseCase(
-                Dispatchers
-            ).doWork(
-                GetOfferRequest(
-                    accessToken,
-                    offerId
-                )
-            )
+                Dispatchers,
+                GetOfferRequest(accessToken, offerId)
+            ).doWork()
 
             when (callResult) {
                 is CallResult.Error -> {
@@ -305,13 +293,9 @@ class HotelDemoComponent(
             }
 
             val callResult = HotelBookingUseCase(
-                Dispatchers
-            ).doWork(
-                HotelBookingRequest(
-                    accessToken,
-                    TestData.hotelBookingRequestBody
-                )
-            )
+                Dispatchers,
+                HotelBookingRequest(accessToken, TestData.hotelBookingRequestBody)
+            ).doWork()
 
             when (callResult) {
                 is CallResult.Error -> {
