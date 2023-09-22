@@ -21,7 +21,6 @@ import com.pablichj.incubator.amadeus.common.CallResult
 import com.pablichj.incubator.amadeus.common.DefaultTimeProvider
 import com.pablichj.incubator.amadeus.common.ITimeProvider
 import com.pablichj.incubator.amadeus.endpoint.accesstoken.*
-import com.pablichj.incubator.amadeus.endpoint.airport.AirportAndCitySearchRequest
 import com.pablichj.incubator.amadeus.endpoint.airport.AirportAndCitySearchUseCase
 import com.pablichj.incubator.amadeus.endpoint.offers.*
 import com.pablichj.incubator.amadeus.endpoint.offers.flight.*
@@ -57,7 +56,8 @@ class AirportDemoComponent(
 
     private fun getAccessToken() {
         coroutineScope.launch {
-            val callResult = GetAccessTokenUseCase(Dispatchers).doWork(
+            val callResult = GetAccessTokenUseCase(
+                Dispatchers,
                 GetAccessTokenRequest(
                     listOf(
                         FormParam.ClientId(ApiCredentials.apiKey),
@@ -65,11 +65,12 @@ class AirportDemoComponent(
                         FormParam.GrantType(GetAccessTokenUseCase.AccessTokenGrantType),
                     )
                 )
-            )
+            ).doWork()
             when (callResult) {
                 is CallResult.Error -> {
                     output("Error fetching access token: ${callResult.error}")
                 }
+
                 is CallResult.Success -> {
                     val accessToken = callResult.responseBody
                     accessTokenDao.insert(accessToken)
@@ -92,22 +93,25 @@ class AirportDemoComponent(
                 output("Using saved token: ${accessToken.accessToken}")
             }
 
+            // Example query url
+            // ?subType=CITY
+            // &keyword=MUC
+            // &page%5Blimit%5D=10
+            // &page%5Boffset%5D=0
+            // &sort=analytics.travelers.score
+            // &view=FULL
             val callResult = AirportAndCitySearchUseCase(
-                Dispatchers
-            ).doWork(
-                // ?subType=CITY&keyword=MUC&page%5Blimit%5D=10&page%5Boffset%5D=0&sort=analytics.travelers.score&view=FULL
-                AirportAndCitySearchRequest(
-                    accessToken, listOf(
-                        QueryParam.Keyword("New Orleans"),
-                        QueryParam.SubType("AIRPORT")
-                    )
-                )
-            )
+                Dispatchers,
+                accessToken,
+                QueryParam.Keyword("New Orleans"),
+                QueryParam.SubType("AIRPORT")
+            ).doWork()
 
             when (callResult) {
                 is CallResult.Error -> {
                     output("Error fetching Airports: ${callResult.error}")
                 }
+
                 is CallResult.Success -> {
                     callResult.responseBody.data.forEach {
                         output(
@@ -142,18 +146,14 @@ class AirportDemoComponent(
             }
 
             val callResult = FlightOffersUseCase(
-                Dispatchers
-            ).doWork(
-                FlightOffersRequest(
-                    accessToken,
-                    TestData.flightOffersRequestBody
-                )
-            )
+                Dispatchers, FlightOffersRequest(accessToken, TestData.flightOffersRequestBody)
+            ).doWork()
 
             when (callResult) {
                 is CallResult.Error -> {
                     output("Error fetching flight offers: ${callResult.error}")
                 }
+
                 is CallResult.Success<FlightOffersResponse> -> {
                     flightOffers = callResult.responseBody.data
                     callResult.responseBody.data.forEach {
@@ -220,8 +220,7 @@ class AirportDemoComponent(
             }
 
             val callResult = FlightOffersConfirmationUseCase(
-                Dispatchers
-            ).doWork(
+                Dispatchers,
                 FlightOffersConfirmationRequest(
                     accessToken,
                     FlightOffersConfirmationRequestBodyBoxing(
@@ -231,12 +230,13 @@ class AirportDemoComponent(
                         )
                     )
                 )
-            )
+            ).doWork()
 
             when (callResult) {
                 is CallResult.Error -> {
                     output("Error fetching flight offers: ${callResult.error}")
                 }
+
                 is CallResult.Success<FlightOffersConfirmationResponse> -> {
                     callResult.responseBody.data.forEach {
                         output(
