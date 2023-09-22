@@ -1,7 +1,7 @@
 ## KMP client for Amadeus Self Service API
 A kotlin multiplatform library to access Amadeus System APIs.
 
-<H5>amadeus-api is on Maven Central</H5>
+<H3>amadeus-api is on Maven Central</H3>
 
 ```
 // your-project-root-path/shared/build.gradle
@@ -13,7 +13,7 @@ val commonMain by getting {
 }
 ```
 
-<H5>Amadeus API Key</H5>
+<H3>Amadeus API Key</H3>
 
 In order to be able to access Amadeus public API once need to create an Account here:
 
@@ -21,7 +21,7 @@ https://developers.amadeus.com/self-service
 
 and get an Api key. Pass the token as parameter to the different use cases that need it.
 
-<H5>Xcode Setup</H5>
+<H3>Xcode Setup</H3>
 
 In the project's `Build Settings` make sure the following properties contain bellow values. It ensures passing the linker flags to the objective-c compiler so it links AmadeusDemoKt and sqlite3 frameworks to the build.
 
@@ -39,7 +39,7 @@ Add the following snippet to the Other Linker flags under the Linking section:
 $(inherited) -framework shared
 ```
 
-<H5>Examples</H5>
+<H3>Examples</H3>
 
 This is a project using it:<BR>
 https://github.com/pablichjenkov/amadeus-hotel-app
