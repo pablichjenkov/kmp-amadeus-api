@@ -25,14 +25,14 @@ and get an Api key. Pass the token as parameter to the different use cases that 
 
 In the project's `Build Settings` make sure the following properties contain bellow values. It ensures passing the linker flags to the objective-c compiler so it links AmadeusDemoKt and sqlite3 frameworks to the build.
 
-*Framework Search Path*
+**Framework Search Path**
 
 Add the following snippet to the Framework Search Paths under the Search Paths section:
 ```
 $(SRCROOT)/../shared/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME)
 ```
 
-*Other Linker Flags*
+**Other Linker Flags**
 
 Add the following snippet to the Other Linker flags under the Linking section:
 ```
