@@ -1,24 +1,25 @@
-package com.pablichj.incubator.amadeus.demo
+package com.pablichj.incubator.amadeus.demo.viewmodel
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Search
 import com.macaosoftware.component.core.NavItem
 import com.macaosoftware.component.core.setNavItems
-import com.macaosoftware.component.navbar.NavBarComponent
-import com.macaosoftware.component.navbar.NavBarComponentViewModel
-import com.macaosoftware.component.navbar.NavBarStatePresenterDefault
+import com.macaosoftware.component.navbar.BottomNavigationComponent
+import com.macaosoftware.component.navbar.BottomNavigationComponentViewModel
+import com.macaosoftware.component.navbar.BottomNavigationStatePresenterDefault
 import com.pablichj.incubator.amadeus.Database
+import com.pablichj.incubator.amadeus.demo.AirportDemoComponent
+import com.pablichj.incubator.amadeus.demo.HotelDemoComponent
 
-class AppNavBarViewModel(
-    private val database: Database
-) : NavBarComponentViewModel<NavBarStatePresenterDefault>() {
+class AppBottomNavigationViewModel(
+    private val database: Database,
+    bottomNavigationComponent: BottomNavigationComponent<AppBottomNavigationViewModel>,
+    override val bottomNavigationStatePresenter: BottomNavigationStatePresenterDefault,
+) : BottomNavigationComponentViewModel(bottomNavigationComponent) {
 
-    private lateinit var navBarComponent: NavBarComponent<NavBarStatePresenterDefault>
-
-    override fun onCreate(navBarComponent: NavBarComponent<NavBarStatePresenterDefault>) {
-        this.navBarComponent = navBarComponent
-        navBarComponent.setNavItems(
+    override fun onCreate() {
+        bottomNavigationComponent.setNavItems(
             mutableListOf(
                 NavItem(
                     label = "Hotel",
