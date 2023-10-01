@@ -11,13 +11,14 @@ plugins {
     id("com.github.gmazzo.buildconfig") apply false
     id("app.cash.sqldelight").version("2.0.0").apply(false)
     id("org.jetbrains.dokka") apply false
+    id("io.realm.kotlin") apply false
 }
 
 allprojects {
     repositories {
         google()
         mavenCentral()
-        maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
+        maven(url = "https://maven.pkg.jetbrains.space/public/p/compose/dev")
         mavenLocal()
     }
 }

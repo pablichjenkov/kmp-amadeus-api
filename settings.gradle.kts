@@ -22,6 +22,9 @@ pluginManagement {
         id("org.jetbrains.compose").version(composeVersion)
         id("com.github.gmazzo.buildconfig").version("4.0.4")
         id("org.jetbrains.dokka").version("1.8.10")
+
+        // Realm
+        id("io.realm.kotlin") version "1.11.1"
     }
 
 }
