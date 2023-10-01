@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
-
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
@@ -151,8 +149,17 @@ kotlin {
             // kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
         }
 
+        // Mobile Only
+        val commonMobileOnly by creating {
+            //dependsOn(commonMain)
+            dependencies {
+                implementation("io.realm.kotlin:library-base:1.11.1")
+            }
+        }
+
         // ANDROID
         val androidMain by getting {
+            dependsOn(commonMobileOnly)
             dependencies {
                 implementation("io.ktor:ktor-client-android:$ktorVersion")
                 implementation("app.cash.sqldelight:android-driver:2.0.0")
@@ -171,6 +178,7 @@ kotlin {
         val iosSimulatorArm64Main by getting
         val iosMain by creating {
             dependsOn(commonMain)
+            dependsOn(commonMobileOnly)
             iosX64Main.dependsOn(this)
             iosArm64Main.dependsOn(this)
             iosSimulatorArm64Main.dependsOn(this)
@@ -209,6 +217,7 @@ kotlin {
                 implementation("app.cash.sqldelight:sqlite-driver:2.0.0")
             }
         }
+
     }
 
 }
