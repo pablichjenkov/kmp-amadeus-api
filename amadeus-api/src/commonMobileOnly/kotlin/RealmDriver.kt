@@ -1,9 +1,6 @@
 import io.realm.kotlin.Realm
 import io.realm.kotlin.RealmConfiguration
 import io.realm.kotlin.ext.query
-import io.realm.kotlin.notifications.ResultsChange
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 
 class RealmDriver {
 
@@ -18,8 +15,10 @@ class RealmDriver {
 
     fun expressions(): List<Expression> = realm.query<Expression>().find()
 
+    /*(
     fun observeChanges(): Flow<List<Expression>> =
         realm.query<Expression>().asFlow().map { resultsChange: ResultsChange<Expression> ->
             resultsChange.list
         }
+    */
 }

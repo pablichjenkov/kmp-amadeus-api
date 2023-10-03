@@ -4,7 +4,7 @@ plugins {
     id("com.github.gmazzo.buildconfig")
 }
 
-version = "1.0-SNAPSHOT"
+version = "1.0.0"
 
 kotlin {
     // IOS
@@ -36,7 +36,7 @@ kotlin {
                 implementation(compose.ui)
                 implementation(compose.material3)
                 implementation(project(":amadeus-api"))
-                api("io.github.pablichjenkov:component-toolkit:0.5.6")
+                api("io.github.pablichjenkov:component-toolkit:0.5.9")
                 implementation("org.jetbrains.compose.components:components-resources:1.5.1")
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.1")
             }
