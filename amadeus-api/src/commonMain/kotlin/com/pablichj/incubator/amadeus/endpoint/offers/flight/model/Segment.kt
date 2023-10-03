@@ -1,13 +1,13 @@
 package com.pablichj.incubator.amadeus.endpoint.offers.flight.model
 
 @kotlinx.serialization.Serializable
-data class Segment (
+data class Segment(
     val departure: Departure,
     val arrival: Arrival,
     val carrierCode: String,
     val number: String,
     val aircraft: Aircraft,
-    val operating: Operating,
+    val operating: Operating? = null,
     val duration: String,
     val id: String,
     val numberOfStops: Long,
