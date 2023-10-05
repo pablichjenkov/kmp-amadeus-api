@@ -8,18 +8,18 @@ A kotlin multiplatform library to access Amadeus System APIs.
 
 val commonMain by getting {
     dependencies {
-        implementation("io.github.pablichjenkov:amadeus-api:0.3.1")
+        implementation("io.github.pablichjenkov:amadeus-api:0.3.2")
     }
 }
 ```
 
 <H3>Amadeus API Key</H3>
 
-In order to be able to access Amadeus public API once need to create an Account here:
+In order to be able to access Amadeus public API you need to create an Account in the following site:
 
 https://developers.amadeus.com/self-service
 
-and get an Api key. Pass the token as parameter to the different use cases that need it.
+In the portal you will get an Api key which you can use to access the free self service API.
 
 <H3>Xcode Setup</H3>
 
