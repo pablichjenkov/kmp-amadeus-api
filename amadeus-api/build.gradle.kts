@@ -128,7 +128,7 @@ kotlin {
     }
 */
     sourceSets {
-        val ktorVersion = "2.3.4"
+        val ktorVersion = "2.3.5"
         // COMMON
         val commonMain by getting {
             dependencies {
@@ -139,7 +139,6 @@ kotlin {
                 implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
                 implementation("io.ktor:ktor-client-logging:$ktorVersion")
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.1")
-                implementation ("ch.qos.logback:logback-classic:1.3.5")
             }
         }
         val commonTest by getting {
@@ -161,6 +160,7 @@ kotlin {
         val androidMain by getting {
             dependsOn(commonMobileOnly)
             dependencies {
+                implementation ("ch.qos.logback:logback-classic:1.3.5")
                 implementation("io.ktor:ktor-client-android:$ktorVersion")
                 implementation("app.cash.sqldelight:android-driver:2.0.0")
             }
@@ -212,6 +212,7 @@ kotlin {
         // JVM
         val desktopMain by getting {
             dependencies {
+                implementation ("ch.qos.logback:logback-classic:1.4.11")
                 implementation("io.ktor:ktor-client-jvm:$ktorVersion")
                 implementation("io.ktor:ktor-client-java:$ktorVersion")
                 implementation("app.cash.sqldelight:sqlite-driver:2.0.0")
