@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "io.github.pablichjenkov"
-version = "0.3.2"
+version = "0.3.3"
 val mavenCentralUser = extra["mavenCentral.user"] as String
 val mavenCentralPass = extra["mavenCentral.pass"] as String
 
@@ -158,7 +158,7 @@ kotlin {
 
         // ANDROID
         val androidMain by getting {
-            dependsOn(commonMobileOnly)
+            // dependsOn(commonMobileOnly)
             dependencies {
                 implementation ("ch.qos.logback:logback-classic:1.3.5")
                 implementation("io.ktor:ktor-client-android:$ktorVersion")
@@ -178,7 +178,7 @@ kotlin {
         val iosSimulatorArm64Main by getting
         val iosMain by creating {
             dependsOn(commonMain)
-            dependsOn(commonMobileOnly)
+            // dependsOn(commonMobileOnly)
             iosX64Main.dependsOn(this)
             iosArm64Main.dependsOn(this)
             iosSimulatorArm64Main.dependsOn(this)

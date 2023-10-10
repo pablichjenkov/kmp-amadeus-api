@@ -44,6 +44,7 @@ android {
             pickFirsts.apply {
                 add("META-INF/kotlinx_coroutines_core.version")
                 add("META-INF/INDEX.LIST")
+                add("META-INF/versions/9/previous-compilation-data.bin")
             }
         }
     }
