@@ -18,7 +18,7 @@ class AppBottomNavigationViewModel(
     override val bottomNavigationStatePresenter: BottomNavigationStatePresenterDefault,
 ) : BottomNavigationComponentViewModel(bottomNavigationComponent) {
 
-    override fun onCreate() {
+    override fun onAttach() {
         bottomNavigationComponent.setNavItems(
             mutableListOf(
                 NavItem(
@@ -42,6 +42,6 @@ class AppBottomNavigationViewModel(
     override fun onStop() {
     }
 
-    override fun onDestroy() {
+    override fun onDetach() {
     }
 }

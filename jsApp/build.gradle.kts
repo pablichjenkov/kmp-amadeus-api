@@ -21,6 +21,7 @@ kotlin {
                 implementation(compose.material3)
                 implementation(project(":shared"))
                 implementation(project(":amadeus-api"))
+                implementation("io.github.pablichjenkov:component-toolkit:0.5.10-rc01")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-js:1.7.3")
                 implementation(devNpm("copy-webpack-plugin", "9.1.0"))
