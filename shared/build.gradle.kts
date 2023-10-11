@@ -36,8 +36,8 @@ kotlin {
                 implementation(compose.ui)
                 implementation(compose.material3)
                 implementation(project(":amadeus-api"))
-                api("io.github.pablichjenkov:component-toolkit:0.5.9")
-                implementation("org.jetbrains.compose.components:components-resources:1.5.1")
+                implementation("io.github.pablichjenkov:component-toolkit:0.5.10-rc01")
+                implementation("org.jetbrains.compose.components:components-resources:1.5.3")
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.1")
             }
         }
