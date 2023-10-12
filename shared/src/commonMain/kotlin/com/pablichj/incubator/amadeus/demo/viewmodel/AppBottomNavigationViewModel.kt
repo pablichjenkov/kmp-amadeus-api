@@ -8,27 +8,37 @@ import com.macaosoftware.component.core.setNavItems
 import com.macaosoftware.component.navbar.BottomNavigationComponent
 import com.macaosoftware.component.navbar.BottomNavigationComponentViewModel
 import com.macaosoftware.component.navbar.BottomNavigationStatePresenterDefault
-import com.pablichj.incubator.amadeus.Database
-import com.pablichj.incubator.amadeus.demo.AirportDemoComponent
-import com.pablichj.incubator.amadeus.demo.HotelDemoComponent
+import com.macaosoftware.component.viewmodel.StateComponent
+import com.pablichj.incubator.amadeus.demo.di.DiContainer
+import com.pablichj.incubator.amadeus.demo.view.AirportDemoComponentView
+import com.pablichj.incubator.amadeus.demo.view.HotelDemoComponentView
+import com.pablichj.incubator.amadeus.demo.viewmodel.factory.AirportDemoViewModelFactory
+import com.pablichj.incubator.amadeus.demo.viewmodel.factory.HotelDemoViewModelFactory
 
 class AppBottomNavigationViewModel(
-    private val database: Database,
+    private val diContainer: DiContainer,
     bottomNavigationComponent: BottomNavigationComponent<AppBottomNavigationViewModel>,
     override val bottomNavigationStatePresenter: BottomNavigationStatePresenterDefault,
 ) : BottomNavigationComponentViewModel(bottomNavigationComponent) {
 
     override fun onAttach() {
+
         bottomNavigationComponent.setNavItems(
             mutableListOf(
                 NavItem(
                     label = "Hotel",
-                    component = HotelDemoComponent(database),
+                    component = StateComponent<HotelDemoViewModel>(
+                        viewModelFactory = HotelDemoViewModelFactory(diContainer),
+                        content = HotelDemoComponentView
+                    ),
                     icon = Icons.Default.Home
                 ),
                 NavItem(
                     label = "Air",
-                    component = AirportDemoComponent(database),
+                    component = StateComponent<AirportDemoViewModel>(
+                        viewModelFactory = AirportDemoViewModelFactory(diContainer),
+                        content = AirportDemoComponentView
+                    ),
                     icon = Icons.Default.Search
                 ),
             ),

@@ -6,6 +6,7 @@ import com.macaosoftware.component.navbar.BottomNavigationComponent
 import com.macaosoftware.component.navbar.BottomNavigationComponentDefaults
 import com.macaosoftware.platform.DefaultAppLifecycleDispatcher
 import com.macaosoftware.platform.IosBridge
+import com.pablichj.incubator.amadeus.demo.di.DiContainer
 import com.pablichj.incubator.amadeus.demo.viewmodel.factory.AppBottomNavigationViewModelFactory
 import com.pablichj.incubator.amadeus.storage.DriverFactory
 import com.pablichj.incubator.amadeus.storage.createDatabase
@@ -23,7 +24,7 @@ fun buildAmadeusDemoComponent(): Component {
         val database = createDatabase(DriverFactory())
         BottomNavigationComponent(
             viewModelFactory = AppBottomNavigationViewModelFactory(
-                database = database,
+                diContainer = DiContainer(database),
                 BottomNavigationComponentDefaults.createBottomNavigationStatePresenter(
                     dispatcher = Dispatchers.Main
                 )
