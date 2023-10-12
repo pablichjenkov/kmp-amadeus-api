@@ -8,6 +8,7 @@ import com.macaosoftware.component.AndroidComponentRender
 import com.macaosoftware.component.navbar.BottomNavigationComponent
 import com.macaosoftware.component.navbar.BottomNavigationComponentDefaults
 import com.macaosoftware.platform.AndroidBridge
+import com.pablichj.incubator.amadeus.demo.di.DiContainer
 import com.pablichj.incubator.amadeus.demo.viewmodel.factory.AppBottomNavigationViewModelFactory
 import com.pablichj.incubator.amadeus.storage.DriverFactory
 import com.pablichj.incubator.amadeus.storage.createDatabase
@@ -22,18 +23,20 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         lifecycleScope.launch {
             val database = createDatabase(DriverFactory(this@MainActivity))
-            val navBarComponent = BottomNavigationComponent(
+
+            val rootComponent = BottomNavigationComponent(
                 viewModelFactory = AppBottomNavigationViewModelFactory(
-                    database = database,
+                    diContainer = DiContainer(database),
                     BottomNavigationComponentDefaults.createBottomNavigationStatePresenter(
                         dispatcher = Dispatchers.Main
                     )
                 ),
                 content = BottomNavigationComponentDefaults.BottomNavigationComponentView
             )
+
             setContent {
                 AndroidComponentRender(
-                    rootComponent = navBarComponent,
+                    rootComponent = rootComponent,
                     androidBridge = androidBridge,
                     onBackPress = { finishAffinity() }
                 )

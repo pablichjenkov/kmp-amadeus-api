@@ -13,12 +13,3 @@ plugins {
     id("org.jetbrains.dokka") apply false
     id("io.realm.kotlin") apply false
 }
-
-allprojects {
-    repositories {
-        google()
-        mavenCentral()
-        maven(url = "https://maven.pkg.jetbrains.space/public/p/compose/dev")
-        mavenLocal()
-    }
-}

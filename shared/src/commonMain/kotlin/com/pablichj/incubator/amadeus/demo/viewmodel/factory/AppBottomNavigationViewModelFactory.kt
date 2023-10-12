@@ -3,11 +3,11 @@ package com.pablichj.incubator.amadeus.demo.viewmodel.factory
 import com.macaosoftware.component.navbar.BottomNavigationComponent
 import com.macaosoftware.component.navbar.BottomNavigationComponentViewModelFactory
 import com.macaosoftware.component.navbar.BottomNavigationStatePresenterDefault
-import com.pablichj.incubator.amadeus.Database
+import com.pablichj.incubator.amadeus.demo.di.DiContainer
 import com.pablichj.incubator.amadeus.demo.viewmodel.AppBottomNavigationViewModel
 
 class AppBottomNavigationViewModelFactory(
-    private val database: Database,
+    private val diContainer: DiContainer,
     private val bottomNavigationStatePresenter: BottomNavigationStatePresenterDefault
 ) : BottomNavigationComponentViewModelFactory<AppBottomNavigationViewModel> {
 
@@ -15,7 +15,7 @@ class AppBottomNavigationViewModelFactory(
         bottomNavigationComponent: BottomNavigationComponent<AppBottomNavigationViewModel>
     ): AppBottomNavigationViewModel {
         return AppBottomNavigationViewModel(
-            database = database,
+            diContainer = diContainer,
             bottomNavigationComponent = bottomNavigationComponent,
             bottomNavigationStatePresenter = bottomNavigationStatePresenter
         )

@@ -28,7 +28,9 @@ import androidx.compose.ui.window.singleWindowApplication
 import com.macaosoftware.component.DesktopComponentRender
 import com.macaosoftware.component.navbar.BottomNavigationComponent
 import com.macaosoftware.component.navbar.BottomNavigationComponentDefaults
+import com.macaosoftware.platform.ComposeReady
 import com.macaosoftware.platform.DesktopBridge
+import com.pablichj.incubator.amadeus.demo.di.DiContainer
 import com.pablichj.incubator.amadeus.demo.viewmodel.factory.AppBottomNavigationViewModelFactory
 import com.pablichj.incubator.amadeus.storage.DriverFactory
 import com.pablichj.incubator.amadeus.storage.createDatabase
@@ -41,16 +43,22 @@ fun main() {
 
     val database = runBlocking { createDatabase(DriverFactory()) }
 
-    val navBarComponent = BottomNavigationComponent(
+    val rootComponent = BottomNavigationComponent(
         viewModelFactory = AppBottomNavigationViewModelFactory(
-            database = database,
+            diContainer = DiContainer(database),
             BottomNavigationComponentDefaults.createBottomNavigationStatePresenter(
                 dispatcher = Dispatchers.Main
             )
         ),
         content = BottomNavigationComponentDefaults.BottomNavigationComponentView
     )
-    val desktopBridge = DesktopBridge()
+
+    var composeReady: ComposeReady? = null
+    val desktopBridge = DesktopBridge(
+        onReady = {
+            composeReady = it
+        }
+    )
 
     singleWindowApplication(
         title = "Amadeus Desktop Demo",
@@ -103,17 +111,24 @@ fun main() {
                             modifier = Modifier.align(Alignment.CenterEnd),
                             horizontalArrangement = Arrangement.End,
                         ) {
-                            Icon(
-                                imageVector = Icons.Default.ArrowBack,
-                                contentDescription = "back"
-                            )
+                            Box(
+                                modifier = Modifier.clickable {
+                                    println("Back press invoked")
+                                    composeReady?.backPressDispatcher?.dispatchBackPressed()
+                                }
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.ArrowBack,
+                                    contentDescription = "back"
+                                )
+                            }
                             Spacer(modifier = Modifier.size(20.dp))
                         }
 
                     }
                 }
                 DesktopComponentRender(
-                    rootComponent = navBarComponent,
+                    rootComponent = rootComponent,
                     windowState = windowState,
                     desktopBridge = desktopBridge
                 )

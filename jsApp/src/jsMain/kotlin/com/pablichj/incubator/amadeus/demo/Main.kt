@@ -11,6 +11,7 @@ import com.macaosoftware.component.navbar.BottomNavigationComponent
 import com.macaosoftware.component.navbar.BottomNavigationComponentDefaults
 import com.macaosoftware.platform.JsBridge
 import com.pablichj.incubator.amadeus.Database
+import com.pablichj.incubator.amadeus.demo.di.DiContainer
 import com.pablichj.incubator.amadeus.demo.viewmodel.factory.AppBottomNavigationViewModelFactory
 import com.pablichj.incubator.amadeus.storage.DriverFactory
 import com.pablichj.incubator.amadeus.storage.createDatabase
@@ -32,10 +33,11 @@ fun main() {
             if (databaseCopy != null) {
                 println("JS_Main::onWasmReady databaseCopy != null")
                 Text("Loading SQDelight Success")
-                val navBarComponent = remember {
+
+                val rootComponent = remember {
                     BottomNavigationComponent(
                         viewModelFactory = AppBottomNavigationViewModelFactory(
-                            database = databaseCopy,
+                            diContainer = DiContainer(databaseCopy),
                             BottomNavigationComponentDefaults.createBottomNavigationStatePresenter(
                                 dispatcher = Dispatchers.Main
                             )
@@ -44,7 +46,7 @@ fun main() {
                     )
                 }
                 BrowserComponentRender(
-                    rootComponent = navBarComponent,
+                    rootComponent = rootComponent,
                     jsBridge = jsBridge,
                     onBackPress = {
                         println("Back press dispatched in root node")
