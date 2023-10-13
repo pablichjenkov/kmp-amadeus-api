@@ -4,22 +4,28 @@ import AmadeusDemoKt
 @main
 struct iOSDemoAppApp: App {
 
-    let iosBridge = BindingsKt.createPlatformBridge()
+    let iosBridge: IosBridge
+    let appLifecycleDispatcher: AppLifecycleDispatcher
        
        init() {
+           appLifecycleDispatcher = SwiftAppLifecycleDispatcher()
+           
+           iosBridge = BindingsKt.createIosBridgeWithSwiftAppLifecycleDispatcher(appLifecycleDispatcher: appLifecycleDispatcher)
+           //appLifecycleDispatcher = iosBridge.appLifecycleDispatcher
        }
        
        var body: some Scene {
            WindowGroup {
                ZStack {
                    Color.white.ignoresSafeArea(.all) // status bar color
-                   ContentView(iosBridge: iosBridge)
+                   ComposeUIViewController(iosBridge: iosBridge)
+                   // ContentView(iosBridge: iosBridge)
                        .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
                            print("application_willEnterForeground")
                        }
                        .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
                            print("application_didBecomeActive")
-                           iosBridge.appLifecycleDispatcher.dispatchAppLifecycleEvent(
+                           appLifecycleDispatcher.dispatchAppLifecycleEvent(
                                appLifecycleEvent: .start
                            )
                        }
@@ -27,7 +33,7 @@ struct iOSDemoAppApp: App {
                            print("application_willResignActive")
                        }.onReceive(NotificationCenter.default.publisher(for: UIApplication.didEnterBackgroundNotification)) { _ in
                            print("application_didEnterBackground")
-                           iosBridge.appLifecycleDispatcher.dispatchAppLifecycleEvent(
+                           appLifecycleDispatcher.dispatchAppLifecycleEvent(
                                appLifecycleEvent: .stop
                            )
                        }
