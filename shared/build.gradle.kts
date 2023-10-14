@@ -7,8 +7,11 @@ plugins {
 version = "1.0.0"
 
 kotlin {
+    applyDefaultHierarchyTemplate()
+
     // IOS
     listOf(
+        iosX64(),
         iosArm64(),
         iosSimulatorArm64()
     ).forEach { iosTarget ->
@@ -36,7 +39,7 @@ kotlin {
                 implementation(compose.ui)
                 implementation(compose.material3)
                 implementation(project(":amadeus-api"))
-                implementation("io.github.pablichjenkov:component-toolkit:0.5.10-rc05")
+                implementation("io.github.pablichjenkov:component-toolkit:0.5.10-rc02")
                 implementation("org.jetbrains.compose.components:components-resources:1.5.3")
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.1")
             }
@@ -46,23 +49,7 @@ kotlin {
                 implementation(kotlin("test"))
             }
         }
-        // IOS
-        val iosArm64Main by getting
-        val iosSimulatorArm64Main by getting
-        val iosMain by creating {
-            dependsOn(commonMain)
-            iosArm64Main.dependsOn(this)
-            iosSimulatorArm64Main.dependsOn(this)
-        }
-        val iosArm64Test by getting
-        val iosSimulatorArm64Test by getting
-        val iosTest by creating {
-            dependsOn(commonTest)
-            iosArm64Test.dependsOn(this)
-            iosSimulatorArm64Test.dependsOn(this)
-        }
     }
-
 }
 
 buildConfig {

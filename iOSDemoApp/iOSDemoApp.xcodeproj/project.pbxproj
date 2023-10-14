@@ -15,6 +15,7 @@
 		9401746D2A777BE500BA34D2 /* iOSDemoAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9401746C2A777BE500BA34D2 /* iOSDemoAppUITests.swift */; };
 		9401746F2A777BE500BA34D2 /* iOSDemoAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9401746E2A777BE500BA34D2 /* iOSDemoAppUITestsLaunchTests.swift */; };
 		94C10B332AD9000E0095E1BD /* SwiftAppLifecycleDispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C10B322AD9000E0095E1BD /* SwiftAppLifecycleDispatcher.swift */; };
+		94FBBE332AD9FF9000B16EC5 /* TestSuspend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94FBBE322AD9FF9000B16EC5 /* TestSuspend.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +48,7 @@
 		9401746C2A777BE500BA34D2 /* iOSDemoAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSDemoAppUITests.swift; sourceTree = "<group>"; };
 		9401746E2A777BE500BA34D2 /* iOSDemoAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSDemoAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		94C10B322AD9000E0095E1BD /* SwiftAppLifecycleDispatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftAppLifecycleDispatcher.swift; sourceTree = "<group>"; };
+		94FBBE322AD9FF9000B16EC5 /* TestSuspend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSuspend.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +113,7 @@
 				940174542A777BE500BA34D2 /* Assets.xcassets */,
 				940174562A777BE500BA34D2 /* iOSDemoApp.entitlements */,
 				940174572A777BE500BA34D2 /* Preview Content */,
+				94FBBE322AD9FF9000B16EC5 /* TestSuspend.swift */,
 			);
 			path = iOSDemoApp;
 			sourceTree = "<group>";
@@ -293,6 +296,7 @@
 			files = (
 				940174532A777BE400BA34D2 /* ContentView.swift in Sources */,
 				94C10B332AD9000E0095E1BD /* SwiftAppLifecycleDispatcher.swift in Sources */,
+				94FBBE332AD9FF9000B16EC5 /* TestSuspend.swift in Sources */,
 				940174512A777BE400BA34D2 /* iOSDemoAppApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

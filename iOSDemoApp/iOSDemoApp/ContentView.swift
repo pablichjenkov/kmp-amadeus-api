@@ -7,14 +7,7 @@ struct ComposeUIViewController : UIViewControllerRepresentable {
     var iosBridge: IosBridge
     
     func makeUIViewController(context: Context) -> UIViewController {
-        let amadeusDemoComponent = BindingsKt.buildAmadeusDemoComponent()
-
-        let mainViewController = BindingsKt.ComponentRenderer(
-            rootComponent: amadeusDemoComponent,
-            iosBridge: iosBridge
-        )
-
-        return mainViewController
+        return BindingsKt.AmadeusDemoViewController(iosBridge: iosBridge)
     }
 
     func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}
