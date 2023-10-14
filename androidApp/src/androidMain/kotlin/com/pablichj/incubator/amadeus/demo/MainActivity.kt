@@ -40,7 +40,7 @@ class MainActivity : ComponentActivity() {
                 AndroidComponentRender(
                     rootComponent = rootComponent,
                     androidBridge = androidBridge,
-                    onBackPress = { finishAffinity() }
+                    onBackPress = { finish() }
                 )
             }
         }

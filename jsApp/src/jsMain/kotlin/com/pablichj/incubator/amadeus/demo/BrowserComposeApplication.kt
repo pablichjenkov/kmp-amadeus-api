@@ -12,7 +12,7 @@ import com.pablichj.incubator.amadeus.demo.viewmodel.factory.AppBottomNavigation
 import kotlinx.coroutines.Dispatchers
 
 @Composable
-fun BrowserComposeApplication(
+fun AmadeusDemoWebPage(
     database: Database
 ) {
     val jsBridge = remember(Unit) {
