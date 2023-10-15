@@ -31,15 +31,17 @@ fun AmadeusDemoViewController(
         var database by remember(Unit) { mutableStateOf<Database?>(null) }
         database?.let {
             println("AmadeusDemoViewController Database Ready")
-            val rootComponent = BottomNavigationComponent(
-                viewModelFactory = AppBottomNavigationViewModelFactory(
-                    diContainer = DiContainer(it),
-                    BottomNavigationComponentDefaults.createBottomNavigationStatePresenter(
-                        dispatcher = Dispatchers.Main
-                    )
-                ),
-                content = BottomNavigationComponentDefaults.BottomNavigationComponentView
-            )
+            val rootComponent = remember(database) {
+                BottomNavigationComponent(
+                    viewModelFactory = AppBottomNavigationViewModelFactory(
+                        diContainer = DiContainer(it),
+                        BottomNavigationComponentDefaults.createBottomNavigationStatePresenter(
+                            dispatcher = Dispatchers.Main
+                        )
+                    ),
+                    content = BottomNavigationComponentDefaults.BottomNavigationComponentView
+                )
+            }
             IosComponentRender(rootComponent, iosBridge)
         }
         LaunchedEffect(Unit) {
