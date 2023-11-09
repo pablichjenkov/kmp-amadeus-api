@@ -6,19 +6,16 @@ plugins {
 }
 
 kotlin {
-    applyDefaultHierarchyTemplate()
-    jvm {}
+    jvm()
     sourceSets {
-        val jvmMain by getting  {
-            dependencies {
-                implementation(project(":amadeus-api"))
-                implementation(project(":shared"))
-                implementation(compose.desktop.common)
-                implementation(compose.desktop.currentOs)
-                implementation("io.github.pablichjenkov:component-toolkit:0.5.10-rc02")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.7.3")
-            }
+        jvmMain.dependencies {
+            implementation(project(":amadeus-api"))
+            implementation(project(":shared"))
+            implementation(compose.desktop.common)
+            implementation(compose.desktop.currentOs)
+            implementation("io.github.pablichjenkov:component-toolkit:0.5.10")
+            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.7.3")
         }
     }
 }
