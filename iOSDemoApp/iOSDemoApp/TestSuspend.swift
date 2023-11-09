@@ -1,12 +1,5 @@
-//
-//  TestSuspend.swift
-//  iOSDemoApp
-//
-//  Created by Pablo Valdes on 10/13/23.
-//
-
 import Foundation
-import AmadeusDemoKt
+import AmadeusApiDemoKt
 
 class TestSuspend {
     

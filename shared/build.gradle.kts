@@ -7,8 +7,6 @@ plugins {
 version = "1.0.0"
 
 kotlin {
-    applyDefaultHierarchyTemplate()
-
     // IOS
     listOf(
         iosX64(),
@@ -17,7 +15,7 @@ kotlin {
     ).forEach { iosTarget ->
         iosTarget.binaries {
             framework {
-                baseName = "AmadeusDemoKt"
+                baseName = "AmadeusApiDemoKt"
                 isStatic = true
             }
         }
@@ -29,25 +27,21 @@ kotlin {
     }
 
     // JVM
-    jvm("desktop")
+    jvm()
 
     sourceSets {
-        val commonMain by getting {
-            dependencies {
-                implementation(compose.runtime)
-                implementation(compose.foundation)
-                implementation(compose.ui)
-                implementation(compose.material3)
-                implementation(project(":amadeus-api"))
-                implementation("io.github.pablichjenkov:component-toolkit:0.5.10-rc02")
-                implementation("org.jetbrains.compose.components:components-resources:1.5.3")
-                implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.1")
-            }
+        commonMain.dependencies {
+            implementation(compose.runtime)
+            implementation(compose.foundation)
+            implementation(compose.ui)
+            implementation(compose.material3)
+            implementation(project(":amadeus-api"))
+            implementation("io.github.pablichjenkov:component-toolkit:0.5.10")
+            implementation("org.jetbrains.compose.components:components-resources:1.5.10")
+            implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.1")
         }
-        val commonTest by getting {
-            dependencies {
-                implementation(kotlin("test"))
-            }
+        commonTest.dependencies {
+            implementation(kotlin("test"))
         }
     }
 }

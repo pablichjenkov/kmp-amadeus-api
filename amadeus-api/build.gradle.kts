@@ -99,9 +99,15 @@ kotlin {
     }
 
     // IOS
-    iosX64()
-    iosArm64()
-    iosSimulatorArm64()
+    listOf(
+        iosX64(),
+        iosArm64(),
+        iosSimulatorArm64(),
+    ).forEach { target ->
+        target.binaries.framework {
+            baseName = "AmadeusApiKt"
+        }
+    }
     /*ios {
         binaries.framework {
             baseName = project.name
@@ -119,7 +125,7 @@ kotlin {
     }
 
     // JVM
-    jvm("desktop")
+    jvm()
 
     /*sourceSets.forEach {
         it.dependencies {
@@ -128,29 +134,25 @@ kotlin {
     }
 */
     sourceSets {
-        val ktorVersion = "2.3.5"
+        val ktorVersion = "2.3.6"
         // COMMON
-        val commonMain by getting {
-            dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
-                implementation("io.ktor:ktor-client-core:$ktorVersion")
-                implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
-                implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
-                implementation("io.ktor:ktor-client-logging:$ktorVersion")
-                implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.1")
-            }
+        commonMain.dependencies {
+            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+            implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
+            implementation("io.ktor:ktor-client-core:$ktorVersion")
+            implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
+            implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
+            implementation("io.ktor:ktor-client-logging:$ktorVersion")
+            implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.1")
         }
-        val commonTest by getting {
-            dependencies {
-                implementation(kotlin("test"))
-            }
-            // kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
+        commonTest.dependencies {
+            implementation(kotlin("test"))
         }
+        // kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
 
         // Mobile Only
         val commonMobileOnly by creating {
-            //dependsOn(commonMain)
+            dependsOn(commonMain.get())
             dependencies {
                 implementation("io.realm.kotlin:library-base:1.11.1")
             }
@@ -158,9 +160,9 @@ kotlin {
 
         // ANDROID
         val androidMain by getting {
-            // dependsOn(commonMobileOnly)
+            dependsOn(commonMobileOnly)
             dependencies {
-                implementation ("ch.qos.logback:logback-classic:1.3.5")
+                implementation("ch.qos.logback:logback-classic:1.3.5")
                 implementation("io.ktor:ktor-client-android:$ktorVersion")
                 implementation("app.cash.sqldelight:android-driver:2.0.0")
             }
@@ -177,11 +179,11 @@ kotlin {
         val iosArm64Main by getting
         val iosSimulatorArm64Main by getting
         val iosMain by creating {
-            dependsOn(commonMain)
-            // dependsOn(commonMobileOnly)
             iosX64Main.dependsOn(this)
             iosArm64Main.dependsOn(this)
             iosSimulatorArm64Main.dependsOn(this)
+            // dependsOn(commonMain.get())
+            dependsOn(commonMobileOnly)
             dependencies {
                 implementation("io.ktor:ktor-client-ios:$ktorVersion")
                 implementation("app.cash.sqldelight:native-driver:2.0.0")
@@ -192,31 +194,27 @@ kotlin {
         val iosArm64Test by getting
         val iosSimulatorArm64Test by getting
         val iosTest by creating {
-            dependsOn(commonTest)
+            dependsOn(commonTest.get())
             iosX64Test.dependsOn(this)
             iosArm64Test.dependsOn(this)
             iosSimulatorArm64Test.dependsOn(this)
         }
 
         // JS
-        val jsMain by getting {
-            dependencies {
-                implementation("io.ktor:ktor-client-js:$ktorVersion")
-                implementation("app.cash.sqldelight:web-worker-driver:2.0.0")
-                implementation(npm("@cashapp/sqldelight-sqljs-worker", "2.0.0"))
-                implementation(npm("sql.js", "1.8.0"))
-                implementation(devNpm("copy-webpack-plugin", "9.1.0"))
-            }
+        jsMain.dependencies {
+            implementation("io.ktor:ktor-client-js:$ktorVersion")
+            implementation("app.cash.sqldelight:web-worker-driver:2.0.0")
+            implementation(npm("@cashapp/sqldelight-sqljs-worker", "2.0.0"))
+            implementation(npm("sql.js", "1.8.0"))
+            implementation(devNpm("copy-webpack-plugin", "9.1.0"))
         }
 
         // JVM
-        val desktopMain by getting {
-            dependencies {
-                implementation ("ch.qos.logback:logback-classic:1.4.11")
-                implementation("io.ktor:ktor-client-jvm:$ktorVersion")
-                implementation("io.ktor:ktor-client-java:$ktorVersion")
-                implementation("app.cash.sqldelight:sqlite-driver:2.0.0")
-            }
+        jvmMain.dependencies {
+            implementation("ch.qos.logback:logback-classic:1.4.11")
+            implementation("io.ktor:ktor-client-jvm:$ktorVersion")
+            implementation("io.ktor:ktor-client-java:$ktorVersion")
+            implementation("app.cash.sqldelight:sqlite-driver:2.0.0")
         }
 
     }

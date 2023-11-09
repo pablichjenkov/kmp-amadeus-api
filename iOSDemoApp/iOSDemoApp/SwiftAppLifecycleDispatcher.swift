@@ -1,4 +1,4 @@
-import AmadeusDemoKt
+import AmadeusApiDemoKt
 
 class SwiftAppLifecycleDispatcher : AppLifecycleDispatcher {
     
