@@ -27,11 +27,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.WindowScope
 import androidx.compose.ui.window.WindowState
 import com.macaosoftware.component.DesktopComponentRender
-import com.macaosoftware.component.backpress.BackPressDispatcher
-import com.macaosoftware.component.backpress.DefaultBackPressDispatcher
-import com.macaosoftware.component.navbar.BottomNavigationComponent
-import com.macaosoftware.component.navbar.BottomNavigationComponentDefaults
-import com.macaosoftware.platform.DesktopBridge
+import com.macaosoftware.component.bottomnavigation.BottomNavigationComponent
+import com.macaosoftware.component.bottomnavigation.BottomNavigationComponentDefaults
+import com.macaosoftware.plugin.BackPressDispatcherPlugin
+import com.macaosoftware.plugin.DefaultBackPressDispatcherPlugin
+import com.macaosoftware.plugin.DesktopBridge
 import com.pablichj.incubator.amadeus.Database
 import com.pablichj.incubator.amadeus.demo.di.DiContainer
 import com.pablichj.incubator.amadeus.demo.viewmodel.factory.AppBottomNavigationViewModelFactory
@@ -43,8 +43,8 @@ fun WindowScope.ComposeDesktopApplication(
     windowState: WindowState,
     database: Database
 ) {
-    val backPressDispatcher: BackPressDispatcher = remember {
-        DefaultBackPressDispatcher()
+    val backPressDispatcher: BackPressDispatcherPlugin = remember {
+        DefaultBackPressDispatcherPlugin()
     }
     val desktopBridge: DesktopBridge = remember(windowState) {
         DesktopBridge(backPressDispatcher)

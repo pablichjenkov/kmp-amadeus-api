@@ -5,13 +5,13 @@ import AmadeusApiDemoKt
 struct iOSDemoAppApp: App {
 
     let iosBridge: IosBridge
-    let appLifecycleDispatcher: AppLifecycleDispatcher
+    let platformLifecyclePlugin: AppLifecycleDispatcher
        
        init() {
-           appLifecycleDispatcher = SwiftAppLifecycleDispatcher()
+           platformLifecyclePlugin = SwiftAppLifecycleDispatcher()
            
-           iosBridge = BindingsKt.createIosBridgeWithSwiftAppLifecycleDispatcher(appLifecycleDispatcher: appLifecycleDispatcher)
-           //appLifecycleDispatcher = iosBridge.appLifecycleDispatcher
+           iosBridge = BindingsKt.createIosBridgeWithSwiftAppLifecycleDispatcher(platformLifecyclePlugin: platformLifecyclePlugin)
+           //platformLifecyclePlugin = iosBridge.platformLifecyclePlugin
        }
        
        var body: some Scene {
@@ -25,7 +25,7 @@ struct iOSDemoAppApp: App {
                        }
                        .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
                            print("application_didBecomeActive")
-                           appLifecycleDispatcher.dispatchAppLifecycleEvent(
+                           platformLifecyclePlugin.dispatchAppLifecycleEvent(
                                appLifecycleEvent: .start
                            )
                        }
@@ -33,7 +33,7 @@ struct iOSDemoAppApp: App {
                            print("application_willResignActive")
                        }.onReceive(NotificationCenter.default.publisher(for: UIApplication.didEnterBackgroundNotification)) { _ in
                            print("application_didEnterBackground")
-                           appLifecycleDispatcher.dispatchAppLifecycleEvent(
+                           platformLifecyclePlugin.dispatchAppLifecycleEvent(
                                appLifecycleEvent: .stop
                            )
                        }

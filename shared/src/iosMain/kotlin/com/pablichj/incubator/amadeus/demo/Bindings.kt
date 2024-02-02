@@ -8,11 +8,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.window.ComposeUIViewController
 import com.macaosoftware.component.IosComponentRender
 import com.macaosoftware.component.core.Component
-import com.macaosoftware.component.navbar.BottomNavigationComponent
-import com.macaosoftware.component.navbar.BottomNavigationComponentDefaults
-import com.macaosoftware.platform.AppLifecycleDispatcher
-import com.macaosoftware.platform.DefaultAppLifecycleDispatcher
-import com.macaosoftware.platform.IosBridge
+import com.macaosoftware.component.bottomnavigation.BottomNavigationComponent
+import com.macaosoftware.component.bottomnavigation.BottomNavigationComponentDefaults
+import com.macaosoftware.plugin.DefaultPlatformLifecyclePlugin
+import com.macaosoftware.plugin.IosBridge
+import com.macaosoftware.plugin.PlatformLifecyclePlugin
 import com.pablichj.incubator.amadeus.Database
 import com.pablichj.incubator.amadeus.demo.di.DiContainer
 import com.pablichj.incubator.amadeus.demo.viewmodel.factory.AppBottomNavigationViewModelFactory
@@ -53,15 +53,15 @@ fun AmadeusDemoViewController(
 
 fun createIosBridge(): IosBridge {
     return IosBridge(
-        appLifecycleDispatcher = DefaultAppLifecycleDispatcher()
+        platformLifecyclePlugin = DefaultPlatformLifecyclePlugin()
     )
 }
 
 fun createIosBridgeWithSwiftAppLifecycleDispatcher(
-    appLifecycleDispatcher: AppLifecycleDispatcher
+    platformLifecyclePlugin: PlatformLifecyclePlugin
 ): IosBridge {
     return IosBridge(
-        appLifecycleDispatcher = appLifecycleDispatcher
+        platformLifecyclePlugin = platformLifecyclePlugin
     )
 }
 

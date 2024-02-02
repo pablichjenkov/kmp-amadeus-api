@@ -36,9 +36,9 @@ kotlin {
             implementation(compose.ui)
             implementation(compose.material3)
             implementation(project(":amadeus-api"))
-            implementation("io.github.pablichjenkov:component-toolkit:0.5.10")
-            implementation("org.jetbrains.compose.components:components-resources:1.5.10")
-            implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.1")
+            implementation("io.github.pablichjenkov:component-toolkit:0.5.16")
+            implementation("org.jetbrains.compose.components:components-resources:1.5.11")
+            implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.5.0")
         }
         commonTest.dependencies {
             implementation(kotlin("test"))
