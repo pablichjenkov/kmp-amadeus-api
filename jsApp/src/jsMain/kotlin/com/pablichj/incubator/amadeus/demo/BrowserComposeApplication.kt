@@ -3,9 +3,9 @@ package com.pablichj.incubator.amadeus.demo
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import com.macaosoftware.component.BrowserComponentRender
-import com.macaosoftware.component.navbar.BottomNavigationComponent
-import com.macaosoftware.component.navbar.BottomNavigationComponentDefaults
-import com.macaosoftware.platform.JsBridge
+import com.macaosoftware.component.bottomnavigation.BottomNavigationComponent
+import com.macaosoftware.component.bottomnavigation.BottomNavigationComponentDefaults
+import com.macaosoftware.plugin.JsBridge
 import com.pablichj.incubator.amadeus.Database
 import com.pablichj.incubator.amadeus.demo.di.DiContainer
 import com.pablichj.incubator.amadeus.demo.viewmodel.factory.AppBottomNavigationViewModelFactory

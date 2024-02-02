@@ -39,6 +39,9 @@ Add the following snippet to the Other Linker flags under the Linking section:
 $(inherited) -framework shared
 ```
 
+To link sqlite3 see this issue:
+https://github.com/cashapp/sqldelight/issues/1442
+
 <H3>Examples</H3>
 
 This is a project using it:<BR>
