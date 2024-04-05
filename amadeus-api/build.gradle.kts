@@ -119,10 +119,17 @@ kotlin {
     }
     */
 
-    // JS
+    // Browser
     js(IR) {
         browser()
     }
+
+    /*@OptIn(ExperimentalWasmDsl::class)
+    wasmJs {
+        moduleName = "AmadeusApiKt"
+        browser()
+        binaries.library()
+    }*/
 
     // JVM
     jvm()
@@ -134,16 +141,16 @@ kotlin {
     }
 */
     sourceSets {
-        val ktorVersion = "2.3.6"
+        val ktorVersion = "2.3.9"
         // COMMON
         commonMain.dependencies {
-            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
-            implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
+            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")
+            implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
             implementation("io.ktor:ktor-client-core:$ktorVersion")
             implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
             implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
             implementation("io.ktor:ktor-client-logging:$ktorVersion")
-            implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.1")
+            implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.5.0")
         }
         commonTest.dependencies {
             implementation(kotlin("test"))
@@ -164,7 +171,7 @@ kotlin {
             dependencies {
                 implementation("ch.qos.logback:logback-classic:1.3.5")
                 implementation("io.ktor:ktor-client-android:$ktorVersion")
-                implementation("app.cash.sqldelight:android-driver:2.0.0")
+                implementation("app.cash.sqldelight:android-driver:2.0.1")
             }
         }
         val androidUnitTest by getting {
@@ -186,7 +193,7 @@ kotlin {
             dependsOn(commonMobileOnly)
             dependencies {
                 implementation("io.ktor:ktor-client-ios:$ktorVersion")
-                implementation("app.cash.sqldelight:native-driver:2.0.0")
+                implementation("app.cash.sqldelight:native-driver:2.0.1")
             }
         }
 
@@ -214,7 +221,7 @@ kotlin {
             implementation("ch.qos.logback:logback-classic:1.4.11")
             implementation("io.ktor:ktor-client-jvm:$ktorVersion")
             implementation("io.ktor:ktor-client-java:$ktorVersion")
-            implementation("app.cash.sqldelight:sqlite-driver:2.0.0")
+            implementation("app.cash.sqldelight:sqlite-driver:2.0.1")
         }
 
     }

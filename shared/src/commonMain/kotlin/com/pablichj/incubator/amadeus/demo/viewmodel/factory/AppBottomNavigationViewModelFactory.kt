@@ -8,7 +8,8 @@ import com.pablichj.incubator.amadeus.demo.viewmodel.AppBottomNavigationViewMode
 
 class AppBottomNavigationViewModelFactory(
     private val diContainer: DiContainer,
-    private val bottomNavigationStatePresenter: BottomNavigationStatePresenterDefault
+    private val bottomNavigationStatePresenter: BottomNavigationStatePresenterDefault,
+    private val onBackPress: () -> Boolean
 ) : BottomNavigationComponentViewModelFactory<AppBottomNavigationViewModel> {
 
     override fun create(
@@ -17,7 +18,8 @@ class AppBottomNavigationViewModelFactory(
         return AppBottomNavigationViewModel(
             diContainer = diContainer,
             bottomNavigationComponent = bottomNavigationComponent,
-            bottomNavigationStatePresenter = bottomNavigationStatePresenter
+            bottomNavigationStatePresenter = bottomNavigationStatePresenter,
+            onBackPress = onBackPress
         )
     }
 }

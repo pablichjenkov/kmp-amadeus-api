@@ -21,6 +21,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.macaosoftware.component.core.BackPressHandler
+import com.macaosoftware.component.util.BackPressHandler
 import com.macaosoftware.component.viewmodel.StateComponent
 import com.pablichj.incubator.amadeus.demo.viewmodel.AirportDemoViewModel
 

@@ -15,10 +15,10 @@ kotlin {
                 implementation(compose.foundation)
                 implementation(compose.ui)
                 implementation(compose.material3)
-                implementation("io.github.pablichjenkov:component-toolkit:0.5.16")
+                implementation("io.github.pablichjenkov:component-toolkit:0.6.2")
                 implementation("androidx.activity:activity-compose:1.8.2")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.0")
             }
         }
     }

@@ -19,6 +19,7 @@ class AppBottomNavigationViewModel(
     private val diContainer: DiContainer,
     bottomNavigationComponent: BottomNavigationComponent<AppBottomNavigationViewModel>,
     override val bottomNavigationStatePresenter: BottomNavigationStatePresenterDefault,
+    private val onBackPress: () -> Boolean
 ) : BottomNavigationComponentViewModel(bottomNavigationComponent) {
 
     override fun onAttach() {
@@ -53,5 +54,9 @@ class AppBottomNavigationViewModel(
     }
 
     override fun onDetach() {
+    }
+
+    override fun handleBackPressed(): Boolean {
+        return onBackPress()
     }
 }

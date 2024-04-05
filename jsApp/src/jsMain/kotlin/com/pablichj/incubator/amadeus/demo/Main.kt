@@ -19,7 +19,10 @@ fun main() {
             var database by remember(Unit) { mutableStateOf<Database?>(null) }
             database?.let {
                 println("JS_Main::onWasmReady databaseCopy != null")
-                AmadeusDemoWebPage(it)
+                AmadeusDemoWebPage(
+                    database = it,
+                    onBackPress = { true }
+                )
             }
             LaunchedEffect(Unit) {
                 println("JS_main::onWasmReady.LaunchedEffect, Initializing ...")

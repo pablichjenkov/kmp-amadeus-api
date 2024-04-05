@@ -6,25 +6,23 @@ class TestSuspend {
     var rootComponentFromCallback: Component_toolkitComponent?
     
     /*public func testSuspend() async throws -> Void {
-        try await BindingsKt.createRootComponent(onResult: <#T##(Component_toolkitComponent) -> Void#>)
-    }*/
+     try await BindingsKt.createRootComponent(onResult: <#T##(Component_toolkitComponent) -> Void#>)
+     }*/
     
     public func testSuspend2() async throws -> Component_toolkitComponent  {
-        /*try await BindingsKt.createRootComponent(
-            onResult: { rootComponent in
-                self.rootComponentFromCallback = rootComponent
-            }
-        )*/
-        try await BindingsKt.createRootComponent()
+        try await AmadeusApiKt.createRootComponent(
+            onBackPress: { exit(0) }
+        )
     }
     
-    func testClosure() -> Component_toolkitComponent? {
-        BindingsKt.requestRootComponent { [unowned self] rootComponent in
-             rootComponentFromCallback = rootComponent
-        }
-        return nil
+    func testClosure() {
+        AmadeusApiKt.requestRootComponent (
+            onResult: { [unowned self] rootComponent in
+                rootComponentFromCallback = rootComponent
+            },
+            onBackPress: { exit(0) }
+        )
+        
     }
-    
-    
     
 }
