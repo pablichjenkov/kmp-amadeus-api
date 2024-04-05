@@ -28,14 +28,17 @@ class MainActivity : ComponentActivity() {
                     diContainer = DiContainer(database),
                     BottomNavigationComponentDefaults.createBottomNavigationStatePresenter(
                         dispatcher = Dispatchers.Main
-                    )
+                    ),
+                    onBackPress = {
+                        finish()
+                        true
+                    }
                 ),
                 content = BottomNavigationComponentDefaults.BottomNavigationComponentView
             )
             setContent {
                 AndroidComponentRender(
-                    rootComponent = rootComponent,
-                    onBackPress = { finish() }
+                    rootComponent = rootComponent
                 )
             }
         }

@@ -18,6 +18,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -29,9 +30,9 @@ import androidx.compose.ui.window.WindowState
 import com.macaosoftware.component.DesktopComponentRender
 import com.macaosoftware.component.bottomnavigation.BottomNavigationComponent
 import com.macaosoftware.component.bottomnavigation.BottomNavigationComponentDefaults
+import com.macaosoftware.component.util.LocalBackPressedDispatcher
 import com.macaosoftware.plugin.BackPressDispatcherPlugin
 import com.macaosoftware.plugin.DefaultBackPressDispatcherPlugin
-import com.macaosoftware.plugin.DesktopBridge
 import com.pablichj.incubator.amadeus.Database
 import com.pablichj.incubator.amadeus.demo.di.DiContainer
 import com.pablichj.incubator.amadeus.demo.viewmodel.factory.AppBottomNavigationViewModelFactory
@@ -46,16 +47,14 @@ fun WindowScope.ComposeDesktopApplication(
     val backPressDispatcher: BackPressDispatcherPlugin = remember {
         DefaultBackPressDispatcherPlugin()
     }
-    val desktopBridge: DesktopBridge = remember(windowState) {
-        DesktopBridge(backPressDispatcher)
-    }
     val rootComponent = remember(windowState) {
         BottomNavigationComponent(
             viewModelFactory = AppBottomNavigationViewModelFactory(
                 diContainer = DiContainer(database),
                 BottomNavigationComponentDefaults.createBottomNavigationStatePresenter(
                     dispatcher = Dispatchers.Main
-                )
+                ),
+                onBackPress = { exitProcess(0) }
             ),
             content = BottomNavigationComponentDefaults.BottomNavigationComponentView
         )
@@ -121,12 +120,14 @@ fun WindowScope.ComposeDesktopApplication(
 
                 }
             }
-            DesktopComponentRender(
-                rootComponent = rootComponent,
-                windowState = windowState,
-                desktopBridge = desktopBridge,
-                onBackPress = { exitProcess(0) }
-            )
+            CompositionLocalProvider(
+                value = LocalBackPressedDispatcher provides backPressDispatcher
+            ) {
+                DesktopComponentRender(
+                    rootComponent = rootComponent,
+                    windowState = windowState
+                )
+            }
         }
     }
 }

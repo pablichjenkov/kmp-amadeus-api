@@ -7,12 +7,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.window.ComposeUIViewController
 import com.macaosoftware.component.IosComponentRender
-import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.bottomnavigation.BottomNavigationComponent
 import com.macaosoftware.component.bottomnavigation.BottomNavigationComponentDefaults
-import com.macaosoftware.plugin.DefaultPlatformLifecyclePlugin
-import com.macaosoftware.plugin.IosBridge
-import com.macaosoftware.plugin.PlatformLifecyclePlugin
+import com.macaosoftware.component.core.Component
 import com.pablichj.incubator.amadeus.Database
 import com.pablichj.incubator.amadeus.demo.di.DiContainer
 import com.pablichj.incubator.amadeus.demo.viewmodel.factory.AppBottomNavigationViewModelFactory
@@ -24,62 +21,52 @@ import kotlinx.coroutines.launch
 import platform.UIKit.UIViewController
 
 fun AmadeusDemoViewController(
-    iosBridge: IosBridge
-): UIViewController =
-    ComposeUIViewController {
+    onBackPress: () -> Boolean
+): UIViewController = ComposeUIViewController {
 
-        var database by remember(Unit) { mutableStateOf<Database?>(null) }
-        database?.let {
-            println("AmadeusDemoViewController Database Ready")
-            val rootComponent = remember(database) {
-                BottomNavigationComponent(
-                    viewModelFactory = AppBottomNavigationViewModelFactory(
-                        diContainer = DiContainer(it),
-                        BottomNavigationComponentDefaults.createBottomNavigationStatePresenter(
-                            dispatcher = Dispatchers.Main
-                        )
+    var database by remember(Unit) { mutableStateOf<Database?>(null) }
+    database?.let {
+        println("AmadeusDemoViewController Database Ready")
+        val rootComponent = remember(database) {
+            BottomNavigationComponent(
+                viewModelFactory = AppBottomNavigationViewModelFactory(
+                    diContainer = DiContainer(it),
+                    BottomNavigationComponentDefaults.createBottomNavigationStatePresenter(
+                        dispatcher = Dispatchers.Main
                     ),
-                    content = BottomNavigationComponentDefaults.BottomNavigationComponentView
-                )
-            }
-            IosComponentRender(rootComponent, iosBridge)
+                    onBackPress = onBackPress
+                ),
+                content = BottomNavigationComponentDefaults.BottomNavigationComponentView
+            )
         }
-        LaunchedEffect(Unit) {
-            println("AmadeusDemoViewController.LaunchedEffect, Initializing ...")
-            database = createDatabase(IosDriverFactory())
-        }
+        IosComponentRender(rootComponent)
     }
-
-
-fun createIosBridge(): IosBridge {
-    return IosBridge(
-        platformLifecyclePlugin = DefaultPlatformLifecyclePlugin()
-    )
+    LaunchedEffect(Unit) {
+        println("AmadeusDemoViewController.LaunchedEffect, Initializing ...")
+        database = createDatabase(IosDriverFactory())
+    }
 }
 
-fun createIosBridgeWithSwiftAppLifecycleDispatcher(
-    platformLifecyclePlugin: PlatformLifecyclePlugin
-): IosBridge {
-    return IosBridge(
-        platformLifecyclePlugin = platformLifecyclePlugin
-    )
-}
 
-suspend fun createRootComponent(): Component {
+suspend fun createRootComponent(
+    onBackPress: () -> Boolean
+): Component {
     val database = createDatabase(IosDriverFactory())
     return BottomNavigationComponent(
         viewModelFactory = AppBottomNavigationViewModelFactory(
             diContainer = DiContainer(database),
             BottomNavigationComponentDefaults.createBottomNavigationStatePresenter(
                 dispatcher = Dispatchers.Main
-            )
+            ),
+            onBackPress = onBackPress
         ),
         content = BottomNavigationComponentDefaults.BottomNavigationComponentView
     )
 }
 
 fun requestRootComponent(
-    onResult: (Component) -> Unit
+    onResult: (Component) -> Unit,
+    onBackPress: () -> Boolean
 ) {
     GlobalScope.launch {
         val database = createDatabase(IosDriverFactory())
@@ -88,7 +75,8 @@ fun requestRootComponent(
                 diContainer = DiContainer(database),
                 BottomNavigationComponentDefaults.createBottomNavigationStatePresenter(
                     dispatcher = Dispatchers.Main
-                )
+                ),
+                onBackPress = onBackPress
             ),
             content = BottomNavigationComponentDefaults.BottomNavigationComponentView
         )

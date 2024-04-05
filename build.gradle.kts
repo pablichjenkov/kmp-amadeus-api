@@ -10,7 +10,7 @@ plugins {
     id("com.android.library") apply false
     id("org.jetbrains.compose") apply false
     id("com.github.gmazzo.buildconfig") apply false
-    id("app.cash.sqldelight").version("2.0.0").apply(false)
+    id("app.cash.sqldelight").version("2.0.1").apply(false)
     id("org.jetbrains.dokka") apply false
     id("io.realm.kotlin") apply false
 }
