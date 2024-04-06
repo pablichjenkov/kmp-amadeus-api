@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "io.github.pablichjenkov"
-version = "0.3.4"
+version = "0.3.5"
 val mavenCentralUser = extra["mavenCentral.user"] as String
 val mavenCentralPass = extra["mavenCentral.pass"] as String
 
