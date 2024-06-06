@@ -29,14 +29,14 @@ In the project's `Build Settings` make sure the following properties contain bel
 
 Add the following snippet to the Framework Search Paths under the Search Paths section:
 ```
-$(SRCROOT)/../shared/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME)
+$(SRCROOT)/../composeApp/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME)
 ```
 
 **Other Linker Flags**
 
-Add the following snippet to the Other Linker flags under the Linking section:
+Add the `-lsqlite3` flag in the Other Linker Flags section. Otherwise the objc compiler won't find the sqlite3 symbols. The setting will look like bellow:
 ```
-$(inherited) -framework shared
+$(inherited) -framework ComposeApp -lsqlite3
 ```
 
 To link sqlite3 see this issue:
@@ -46,6 +46,3 @@ https://github.com/cashapp/sqldelight/issues/1442
 
 This is a project using it:<BR>
 https://github.com/pablichjenkov/amadeus-hotel-app
-
-Check the shared module within this repo and run the different platform Apps:<BR>
-https://github.com/pablichjenkov/kmp-amadeus-api/tree/main/shared
