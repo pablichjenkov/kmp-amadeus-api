@@ -27,7 +27,7 @@ In the project's `Build Settings` make sure the following properties contain bel
 
 **Framework Search Path**
 
-Add the following snippet to the Framework Search Paths under the Search Paths section:
+Ensure the `Framework Search Paths` contains bellow directory path. Otherwise, add it.
 ```
 $(SRCROOT)/../composeApp/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME)
 ```
@@ -42,7 +42,7 @@ $(inherited) -framework ComposeApp -lsqlite3
 To link sqlite3 see this issue:
 https://github.com/cashapp/sqldelight/issues/1442
 
-<H3>Examples</H3>
+<H3>Projects using it</H3>
 
 This is a project using it:<BR>
 https://github.com/pablichjenkov/amadeus-hotel-app
