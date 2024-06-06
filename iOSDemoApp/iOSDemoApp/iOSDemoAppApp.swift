@@ -1,5 +1,5 @@
 import SwiftUI
-import AmadeusApiDemoKt
+import ComposeApp
 
 @main
 struct iOSDemoAppApp: App {
