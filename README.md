@@ -34,7 +34,8 @@ $(SRCROOT)/../composeApp/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME)
 
 **Other Linker Flags**
 
-Add the `-lsqlite3` flag in the Other Linker Flags section. Otherwise the objc compiler won't find the sqlite3 symbols. The setting will look like bellow:
+Add the `-lsqlite3` flag in the Other Linker Flags section. Otherwise the objc compiler won't find the sqlite3 symbols which the SQLDelight native library was dynamically compiled against.
+The setting will look like bellow:
 ```
 $(inherited) -framework ComposeApp -lsqlite3
 ```
