@@ -13,6 +13,7 @@ build/
 *.hprof
 out/
 .kotlin
+kotlin-js-store/
 
 ### iOS Xcode generated ###
 iOSDemoApp/iOSDemoApp.xcodeproj/*
