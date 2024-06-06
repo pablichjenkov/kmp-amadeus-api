@@ -1,8 +1,5 @@
 include(":amadeus-api")
-include(":shared")
-include(":androidApp")
-include(":jsApp")
-include(":jvmApp")
+include(":composeApp")
 
 //include(":component")
 //project(":component").projectDir = File("../component/component")
@@ -41,6 +38,7 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         maven(url = "https://maven.pkg.jetbrains.space/public/p/compose/dev")
+        maven(url = "https://maven.pkg.jetbrains.space/kotlin/p/wasm/experimental")
         mavenLocal()
     }
 }

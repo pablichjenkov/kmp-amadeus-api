@@ -46,7 +46,6 @@ kotlin {
             implementation(compose.foundation)
             implementation(compose.ui)
             implementation(compose.material3)
-            implementation(project(":shared"))
             implementation(project(":macao-sdk-di-koin"))
             implementation(project(":macao-sdk-di-manual"))
             implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")

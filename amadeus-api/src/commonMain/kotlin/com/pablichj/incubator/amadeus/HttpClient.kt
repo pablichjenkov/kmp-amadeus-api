@@ -7,11 +7,13 @@ import io.ktor.client.plugins.logging.*
 import io.ktor.serialization.kotlinx.json.*
 import kotlinx.serialization.json.Json
 
-private const val RequestTimeoutMillis = 15_000L
+private const val HttpOperationTimeoutMillis = 15_000L
 
 internal val httpClient = HttpClient {
     install(HttpTimeout) {
-        requestTimeoutMillis = RequestTimeoutMillis
+        requestTimeoutMillis = HttpOperationTimeoutMillis
+        connectTimeoutMillis =  HttpOperationTimeoutMillis
+        socketTimeoutMillis = HttpOperationTimeoutMillis
     }
     install(Logging) {
         logger = Logger.DEFAULT

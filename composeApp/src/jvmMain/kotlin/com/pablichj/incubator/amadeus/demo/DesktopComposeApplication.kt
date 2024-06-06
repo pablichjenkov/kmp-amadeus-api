@@ -123,10 +123,7 @@ fun WindowScope.ComposeDesktopApplication(
             CompositionLocalProvider(
                 value = LocalBackPressedDispatcher provides backPressDispatcher
             ) {
-                DesktopComponentRender(
-                    rootComponent = rootComponent,
-                    windowState = windowState
-                )
+                DesktopComponentRender(rootComponent = rootComponent)
             }
         }
     }

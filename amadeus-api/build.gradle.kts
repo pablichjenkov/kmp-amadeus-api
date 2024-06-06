@@ -46,8 +46,7 @@ publishing {
             version
             artifact(javadocJar)
             pom {
-                val projectGitUrl =
-                    "https://github.com/pablichjenkov/templato/tree/master/component"
+                val projectGitUrl = "https://github.com/pablichjenkov/kmp-amadeus-api"
                 name.set(rootProject.name)
                 description.set(
                     "kotlin multiplatform client to consume Amadeus API Services."
@@ -95,7 +94,7 @@ tasks.withType<AbstractPublishToMaven>().configureEach {
 kotlin {
     // ANDROID
     androidTarget {
-        publishLibraryVariants("release")
+        publishLibraryVariants("release", "debug")
     }
 
     // IOS
@@ -141,16 +140,16 @@ kotlin {
     }
 */
     sourceSets {
-        val ktorVersion = "2.3.9"
+        val ktorVersion = "2.3.11"
         // COMMON
         commonMain.dependencies {
-            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")
+            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")
             implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
             implementation("io.ktor:ktor-client-core:$ktorVersion")
             implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
             implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
             implementation("io.ktor:ktor-client-logging:$ktorVersion")
-            implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.5.0")
+            implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.0")
         }
         commonTest.dependencies {
             implementation(kotlin("test"))
@@ -166,12 +165,12 @@ kotlin {
         }
 
         // ANDROID
-        val androidMain by getting {
+        androidMain {
             dependsOn(commonMobileOnly)
             dependencies {
                 implementation("ch.qos.logback:logback-classic:1.3.5")
                 implementation("io.ktor:ktor-client-android:$ktorVersion")
-                implementation("app.cash.sqldelight:android-driver:2.0.1")
+                implementation("app.cash.sqldelight:android-driver:2.0.2")
             }
         }
         val androidUnitTest by getting {
@@ -193,7 +192,7 @@ kotlin {
             dependsOn(commonMobileOnly)
             dependencies {
                 implementation("io.ktor:ktor-client-ios:$ktorVersion")
-                implementation("app.cash.sqldelight:native-driver:2.0.1")
+                implementation("app.cash.sqldelight:native-driver:2.0.2")
             }
         }
 
@@ -219,9 +218,8 @@ kotlin {
         // JVM
         jvmMain.dependencies {
             implementation("ch.qos.logback:logback-classic:1.4.11")
-            implementation("io.ktor:ktor-client-jvm:$ktorVersion")
             implementation("io.ktor:ktor-client-java:$ktorVersion")
-            implementation("app.cash.sqldelight:sqlite-driver:2.0.1")
+            implementation("app.cash.sqldelight:sqlite-driver:2.0.2")
         }
 
     }

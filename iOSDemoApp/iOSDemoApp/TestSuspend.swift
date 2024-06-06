@@ -1,5 +1,5 @@
 import Foundation
-import AmadeusApiDemoKt
+import ComposeApp
 
 class TestSuspend {
     

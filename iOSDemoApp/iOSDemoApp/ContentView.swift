@@ -1,6 +1,6 @@
 import SwiftUI
 import UIKit
-import AmadeusApiDemoKt
+import ComposeApp
 
 struct ComposeUIViewController : UIViewControllerRepresentable {
     
