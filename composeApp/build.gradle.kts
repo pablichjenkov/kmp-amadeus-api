@@ -2,6 +2,7 @@ import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
 plugins {
     kotlin("multiplatform")
+    id("org.jetbrains.kotlin.plugin.compose")
     id("org.jetbrains.compose")
     id("com.android.application")
     id("com.github.gmazzo.buildconfig")
