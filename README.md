@@ -23,7 +23,7 @@ In the portal you will get an Api key which you can use to access the free self 
 
 <H3>Xcode Setup</H3>
 
-In the project's `Build Settings` make sure the following properties contain bellow values. It ensures passing the linker flags to the objective-c compiler so it links AmadeusDemoKt and sqlite3 frameworks to the build.
+In the project's `Build Settings` make sure the following properties contain bellow values. It will tell the objective-c compiler where to find the local `ComposeApp.framework` and will tell the linker this build uses `sqlite3` shared library so it properly links the App against it.
 
 **Framework Search Path**
 
